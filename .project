@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>figureSeries</name>
+	<comment>figureSeries is a LaTeX package for creating figure*-like floating objects that can break over several pages, authored by Thomas Weise (http://www.it-weise.de).</comment>
+	<projects>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+	</natures>
+</projectDescription>

@@ -1,0 +1,57 @@
+\documentclass{sig-alternate}
+\RequirePackage{graphicx}%
+\RequirePackage{lipsum}%
+\RequirePackage{figureSeries}%
+\begin{document}%
+\lipsum[1]%
+\figureSeriesFloat{%
+My seventh  figure series should ``float'', i.e., begin at a new pages.%
+}{%
+\figureSeriesRow{%
+\figureSeriesElement{Caption 7.1}{\resizebox{5cm}{3cm}{\fbox{a}}}%
+\figureSeriesElement{Caption 7.2}{\resizebox{5cm}{3cm}{\fbox{b}}}%
+\figureSeriesElement{Caption 7.3}{\resizebox{5cm}{3cm}{\fbox{c}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 7.4}{\resizebox{4cm}{3cm}{\fbox{d}}}%
+\figureSeriesElement{Caption 7.5}{\resizebox{5cm}{2cm}{\fbox{e}}}%
+\figureSeriesElement{Caption 7.6}{\resizebox{6cm}{4cm}{\fbox{f}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 7.7}{\resizebox{4cm}{2cm}{\fbox{g}}}%
+\figureSeriesElement{Caption 7.8}{\resizebox{4cm}{3cm}{\fbox{h}}}%
+\figureSeriesElement{Caption 7.9}{\resizebox{7cm}{3cm}{\fbox{i}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 7.10}{\resizebox{8cm}{3cm}{\fbox{j}}}%
+\figureSeriesElement{Caption 7.11}{\resizebox{2cm}{3cm}{\fbox{k}}}%
+\figureSeriesElement{Caption 7.12}{\resizebox{5cm}{3cm}{\fbox{l}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 7.13}{\resizebox{5cm}{4cm}{\fbox{m}}}%
+\figureSeriesElement{Caption 7.14}{\resizebox{7cm}{1cm}{\fbox{n}}}%
+\figureSeriesElement{Caption 7.15}{\resizebox{3cm}{3cm}{\fbox{o}}}%
+}}%
+\lipsum[1-30]%
+\figureSeriesFloat{%
+My eigth figure series also ``floats''. It comes after the seventh.%
+}{%
+\figureSeriesRow{%
+\figureSeriesElement{Caption 8.1}{\resizebox{0.3\linewidth}{6cm}{\fbox{a}}}%
+\figureSeriesElement{Caption 8.2}{\resizebox{0.3\linewidth}{6cm}{\fbox{b}}}%
+\figureSeriesElement{Caption 8.3}{\resizebox{0.3\linewidth}{6cm}{\fbox{c}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 8.4}{\resizebox{0.3\linewidth}{5cm}{\fbox{d}}}%
+\figureSeriesElement{Caption 8.5}{\resizebox{0.3\linewidth}{4cm}{\fbox{e}}}%
+\figureSeriesElement{Caption 8.6}{\resizebox{0.3\linewidth}{3cm}{\fbox{f}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 8.7}{\resizebox{0.3\linewidth}{!}{\fbox{g}}}%
+\figureSeriesElement{Caption 8.8}{\resizebox{0.3\linewidth}{!}{\fbox{h}}}%
+\figureSeriesElement{Caption 8.9}{\resizebox{0.3\linewidth}{!}{\fbox{i}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 8.10}{\resizebox{0.3\linewidth}{3cm}{\fbox{j}}}%
+\figureSeriesElement{Caption 8.11}{\resizebox{0.3\linewidth}{2cm}{\fbox{k}}}%
+\figureSeriesElement{Caption 8.12}{\resizebox{0.3\linewidth}{8.5cm}{\fbox{l}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 8.13}{\resizebox{0.3\linewidth}{!}{\fbox{m}}}%
+\figureSeriesElement{Caption 8.14}{\resizebox{0.3\linewidth}{6cm}{\fbox{n}}}%
+\figureSeriesElement{Caption 8.15}{\resizebox{0.3\linewidth}{4cm}{\fbox{o}}}%
+}}%
+\lipsum[1-30]%
+\end{document}%

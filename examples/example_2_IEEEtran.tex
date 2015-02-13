@@ -1,0 +1,40 @@
+\documentclass{IEEEtran}%
+\RequirePackage{graphicx}%
+\RequirePackage{lipsum}%
+\RequirePackage{figureSeries}%
+\begin{document}%
+\lipsum%
+\figureSeriesFloat{%
+My second figure series should ``float'', i.e., begin at a new page.%
+}{%
+\figureSeriesRow{%
+\figureSeriesElement{Caption 2.1}{\resizebox{0.3\linewidth}{6cm}{\fbox{a}}}%
+\figureSeriesElement{Caption 2.2}{\resizebox{0.3\linewidth}{6cm}{\fbox{b}}}%
+\figureSeriesElement{Caption 2.3}{\resizebox{0.3\linewidth}{6cm}{\fbox{c}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 2.4}{\resizebox{0.3\linewidth}{5cm}{\fbox{d}}}%
+\figureSeriesElement{Caption 2.5}{\resizebox{0.3\linewidth}{4cm}{\fbox{e}}}%
+\figureSeriesElement{Caption 2.6}{\resizebox{0.3\linewidth}{3cm}{\fbox{f}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 2.7}{\resizebox{0.3\linewidth}{!}{\fbox{g}}}%
+\figureSeriesElement{Caption 2.8}{\resizebox{0.3\linewidth}{!}{\fbox{h}}}%
+\figureSeriesElement{Caption 2.9}{\resizebox{0.3\linewidth}{!}{\fbox{i}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 2.10}{\resizebox{0.3\linewidth}{3cm}{\fbox{j}}}%
+\figureSeriesElement{Caption 2.11}{\resizebox{0.3\linewidth}{2cm}{\fbox{k}}}%
+\figureSeriesElement{Caption 2.12}{\resizebox{0.3\linewidth}{2.5cm}{\fbox{l}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 2.13}{\resizebox{0.3\linewidth}{!}{\fbox{m}}}%
+\figureSeriesElement{Caption 2.14}{\resizebox{0.3\linewidth}{6cm}{\fbox{n}}}%
+\figureSeriesElement{Caption 2.15}{\resizebox{0.3\linewidth}{4cm}{\fbox{o}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 2.16}{\resizebox{0.3\linewidth}{3cm}{\fbox{p}}}%
+\figureSeriesElement{Caption 2.17}{\resizebox{0.3\linewidth}{3cm}{\fbox{q}}}%
+\figureSeriesElement{Caption 2.18}{\resizebox{0.3\linewidth}{3cm}{\fbox{r}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 2.19}{\resizebox{0.3\linewidth}{3cm}{\fbox{s}}}%
+\figureSeriesElement{Caption 2.20}{\resizebox{0.3\linewidth}{3cm}{\fbox{t}}}%
+\figureSeriesElement{Caption 2.21}{\resizebox{0.3\linewidth}{3cm}{\fbox{u}}}%
+}}%
+\lipsum[1-20]%
+\end{document}%

@@ -1,0 +1,50 @@
+\documentclass{sig-alternate}
+\RequirePackage{graphicx}%
+\RequirePackage{lipsum}%
+\RequirePackage{figureSeries}%
+\begin{document}%
+\lipsum[1]%
+\figureSeriesFloat{%
+My sixth figure series should ``float'', i.e., begin at a new page.
+It uses the \texttt{sig-alternate} class and fills one page completely
+plus occupies a bit space on the following page.%
+}{%
+\figureSeriesRow{%
+\figureSeriesElement{Caption 6.1}{\resizebox{5cm}{1cm}{\fbox{a}}}%
+\figureSeriesElement{Caption 6.2}{\resizebox{5cm}{1cm}{\fbox{b}}}%
+\figureSeriesElement{Caption 6.3}{\resizebox{5cm}{1cm}{\fbox{c}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 6.4}{\resizebox{4cm}{1cm}{\fbox{d}}}%
+\figureSeriesElement{Caption 6.5}{\resizebox{5cm}{1cm}{\fbox{e}}}%
+\figureSeriesElement{Caption 6.6}{\resizebox{6cm}{1cm}{\fbox{f}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 6.7}{\resizebox{4cm}{1cm}{\fbox{g}}}%
+\figureSeriesElement{Caption 6.8}{\resizebox{4cm}{1cm}{\fbox{h}}}%
+\figureSeriesElement{Caption 6.9}{\resizebox{7cm}{1cm}{\fbox{i}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 6.10}{\resizebox{8cm}{1cm}{\fbox{j}}}%
+\figureSeriesElement{Caption 6.11}{\resizebox{2cm}{1cm}{\fbox{k}}}%
+\figureSeriesElement{Caption 6.12}{\resizebox{5cm}{1cm}{\fbox{l}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 6.13}{\resizebox{5cm}{1cm}{\fbox{m}}}%
+\figureSeriesElement{Caption 6.14}{\resizebox{7cm}{1cm}{\fbox{n}}}%
+\figureSeriesElement{Caption 6.15}{\resizebox{3cm}{1cm}{\fbox{o}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{\label{checkThis}Referenced Figure with Caption 6.16}{\resizebox{6cm}{1cm}{\fbox{p}}}%
+\figureSeriesElement{Caption 6.17}{\resizebox{6cm}{1cm}{\fbox{q}}}%
+\figureSeriesElement{Caption 6.18}{\resizebox{3cm}{1cm}{\fbox{r}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 6.19}{\resizebox{1cm}{1cm}{\fbox{s}}}%
+\figureSeriesElement{Caption 6.20}{\resizebox{12cm}{1cm}{\fbox{t}}}%
+\figureSeriesElement{Caption 6.21}{\resizebox{2cm}{1cm}{\fbox{u}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 6.22}{\resizebox{10cm}{1cm}{\fbox{v}}}%
+\figureSeriesElement{Caption 6.23}{\resizebox{3cm}{1cm}{\fbox{w}}}%
+\figureSeriesElement{Caption 6.24}{\resizebox{2cm}{1cm}{\fbox{x}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 6.25}{\resizebox{7.5cm}{1cm}{\fbox{y}}}%
+\figureSeriesElement{Caption 6.26}{\resizebox{7.5cm}{1cm}{\fbox{z}}}%
+}}%
+\lipsum[1-20]\par%
+\huge{Dude, check Figure~\ref{checkThis}.}%
+\end{document}%

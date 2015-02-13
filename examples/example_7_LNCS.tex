@@ -1,0 +1,20 @@
+\documentclass{llncs}%
+\RequirePackage{graphicx}%
+\RequirePackage{lipsum}%
+\RequirePackage{figureSeries}%
+\begin{document}%
+\lipsum%
+\figureSeriesFloat{%
+My ninth figure series should appear float.%
+}{%
+\figureSeriesRow{%
+\figureSeriesElement{Caption 9.1}{\resizebox{0.3\linewidth}{5cm}{\fbox{a}}}%
+\figureSeriesElement{Caption 9.2}{\resizebox{0.3\linewidth}{5cm}{\fbox{b}}}%
+\figureSeriesElement{Caption 9.3}{\resizebox{0.3\linewidth}{5cm}{\fbox{c}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 9.4}{\resizebox{0.3\linewidth}{5cm}{\fbox{d}}}%
+\figureSeriesElement{Caption 9.5}{\resizebox{0.3\linewidth}{5cm}{\fbox{e}}}%
+\figureSeriesElement{Caption 9.6}{\resizebox{0.3\linewidth}{5cm}{\fbox{f}}}%
+}}%
+\lipsum%
+\end{document}%

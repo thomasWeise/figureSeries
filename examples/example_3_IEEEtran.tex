@@ -1,0 +1,50 @@
+\documentclass{IEEEtran}%
+\RequirePackage{graphicx}%
+\RequirePackage{lipsum}%
+\RequirePackage{figureSeries}%
+\begin{document}%
+\lipsum%
+\figureSeriesFloat{%
+My third figure series is small. It should float and merge with the following
+series.\label{ser:3}%
+}{%
+\figureSeriesRow{%
+\figureSeriesElement{Caption 3.1}{\resizebox{0.3\linewidth}{3cm}{\fbox{a}}}%
+\figureSeriesElement{Caption 3.2}{\resizebox{0.3\linewidth}{3cm}{\fbox{b}}}%
+\figureSeriesElement{Caption 3.3}{\resizebox{0.3\linewidth}{3cm}{\fbox{c}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 3.4}{\resizebox{0.3\linewidth}{4.2cm}{\fbox{d}}}%
+\figureSeriesElement{Caption 3.5}{\resizebox{0.3\linewidth}{4.2cm}{\fbox{e}}}%
+\figureSeriesElement{Caption 3.6}{\resizebox{0.3\linewidth}{4.2cm}{\fbox{f}}}%
+}}%
+This is a short text inbetween the two series~\ref{ser:3} and~\ref{ser:4},
+which should not prevent them from merging.
+\figureSeriesFloat{%
+My fourth figure series is a bit longer. It should merge with the previous
+series~\ref{ser:3}.\label{ser:4}%
+}{
+\figureSeriesRow{%
+\figureSeriesElement{Caption 4.1}{\resizebox{0.3\linewidth}{!}{\fbox{g}}}%
+\figureSeriesElement{Caption 4.2}{\resizebox{0.3\linewidth}{!}{\fbox{h}}}%
+\figureSeriesElement{Caption 4.3}{\resizebox{0.3\linewidth}{!}{\fbox{i}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 4.4 is a very long caption. It will probably %
+break into multiple lines. Does this matter? Let's find out.}{%
+\resizebox{0.3\linewidth}{3cm}{\fbox{j}}}%
+\figureSeriesElement{Caption 4.5}{\resizebox{0.3\linewidth}{2cm}{\fbox{k}}}%
+\figureSeriesElement{Caption 4.6}{\resizebox{0.3\linewidth}{2.5cm}{\fbox{l}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 4.7}{\resizebox{0.3\linewidth}{!}{\fbox{m}}}%
+\figureSeriesElement{Caption 4.8}{\resizebox{0.3\linewidth}{6cm}{\fbox{n}}}%
+\figureSeriesElement{Caption 4.9}{\resizebox{0.3\linewidth}{4cm}{\fbox{o}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 4.10}{\resizebox{0.3\linewidth}{3cm}{\fbox{p}}}%
+\figureSeriesElement{Caption 4.11}{\resizebox{0.3\linewidth}{3cm}{\fbox{q}}}%
+\figureSeriesElement{Caption 4.12}{\resizebox{0.3\linewidth}{3cm}{\fbox{r}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 4.13}{\resizebox{0.3\linewidth}{3cm}{\fbox{s}}}%
+\figureSeriesElement{Caption 4.14}{\resizebox{0.3\linewidth}{3cm}{\fbox{t}}}%
+\figureSeriesElement{Caption 4.15}{\resizebox{0.3\linewidth}{3cm}{\fbox{u}}}%
+}}%
+\lipsum[1-20]%
+\end{document}%

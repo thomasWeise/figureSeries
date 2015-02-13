@@ -1,0 +1,38 @@
+\documentclass{sig-alternate}
+\RequirePackage{graphicx}%
+\RequirePackage{lipsum}%
+\RequirePackage{figureSeries}%
+\begin{document}%
+\lipsum[1]%
+\figureSeriesFloat{%
+My fifth figure series should ``float'', i.e., begin at a new page. It 
+also shows that the vertical offsets of the columns following it do not fit
+well if we use the \texttt{sig-alternate} class.%
+}{%
+\figureSeriesRow{%
+\figureSeriesElement{Caption 5.1}{\resizebox{0.3\linewidth}{6cm}{\fbox{a}}}%
+\figureSeriesElement{Caption 5.2}{\resizebox{0.3\linewidth}{6cm}{\fbox{b}}}%
+\figureSeriesElement{Caption 5.3}{\resizebox{0.3\linewidth}{6cm}{\fbox{c}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 5.4}{\resizebox{0.3\linewidth}{5cm}{\fbox{d}}}%
+\figureSeriesElement{Caption 5.5}{\resizebox{0.3\linewidth}{4cm}{\fbox{e}}}%
+\figureSeriesElement{Caption 5.6}{\resizebox{0.3\linewidth}{3cm}{\fbox{f}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 5.7}{\resizebox{0.3\linewidth}{!}{\fbox{g}}}%
+\figureSeriesElement{Caption 5.8}{\resizebox{0.3\linewidth}{!}{\fbox{h}}}%
+\figureSeriesElement{Caption 5.9}{\resizebox{0.3\linewidth}{!}{\fbox{i}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 5.10}{\resizebox{0.3\linewidth}{3cm}{\fbox{j}}}%
+\figureSeriesElement{Caption 5.11}{\resizebox{0.3\linewidth}{2cm}{\fbox{k}}}%
+\figureSeriesElement{Caption 5.12}{\resizebox{0.3\linewidth}{5.5cm}{\fbox{l}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 5.13}{\resizebox{0.3\linewidth}{!}{\fbox{m}}}%
+\figureSeriesElement{Caption 5.14}{\resizebox{0.3\linewidth}{6cm}{\fbox{n}}}%
+\figureSeriesElement{Caption 5.15}{\resizebox{0.3\linewidth}{4cm}{\fbox{o}}}%
+}\figureSeriesRow{%
+\figureSeriesElement{Caption 5.16}{\resizebox{0.3\linewidth}{3cm}{\fbox{p}}}%
+\figureSeriesElement{Caption 5.17}{\resizebox{0.3\linewidth}{3cm}{\fbox{q}}}%
+\figureSeriesElement{Caption 5.18}{\resizebox{0.3\linewidth}{3cm}{\fbox{r}}}%
+}}%
+\lipsum[1-20]%
+\end{document}%
