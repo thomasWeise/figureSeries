@@ -32,6 +32,7 @@ del example_4_sigAlternate.pdf
 del example_5_sigAlternate.pdf
 del example_6_sigAlternate.pdf
 del example_7_LNCS.pdf
+del example_8.pdf
 cd ..
 
 latex figureSeries.ins
@@ -52,6 +53,8 @@ pdflatex example_6_sigAlternate
 pdflatex example_6_sigAlternate
 pdflatex example_7_LNCS
 pdflatex example_7_LNCS
+pdflatex example_8
+pdflatex example_8
 cd ..
 
 pdflatex figureSeries.dtx

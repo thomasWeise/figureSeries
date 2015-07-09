@@ -35,6 +35,7 @@ rm example_4_sigAlternate.pdf
 rm example_5_sigAlternate.pdf
 rm example_6_sigAlternate.pdf
 rm example_7_LNCS.pdf
+rm example_8.pdf
 cd ..
 
 latex figureSeries.ins
@@ -55,6 +56,8 @@ pdflatex example_6_sigAlternate
 pdflatex example_6_sigAlternate
 pdflatex example_7_LNCS
 pdflatex example_7_LNCS
+pdflatex example_8
+pdflatex example_8
 cd ..
 
 pdflatex figureSeries.dtx

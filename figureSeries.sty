@@ -26,7 +26,7 @@
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesPackage{figureSeries}
-    [2015/07/07 v0.9.3 Provides a floating, figure*-like construct that can break over multiple pages]
+    [2015/02/13 v0.9.4 Provides a floating, figure*-like construct that can break over multiple pages]
 \newif\if@figSer@captionCompatibilityFalse%
 \@figSer@captionCompatibilityFalsefalse%
 \ifx\spnewtheorem\@undefined%
@@ -41,8 +41,6 @@
 \RequirePackage{subcaption}%
 \DeclareCaptionSubType*[arabic]{figure}%
 \RequirePackage{afterpage}%
-\RequirePackage{everypage}%
-\RequirePackage{placeins}%
 \long\gdef\figureSeriesElement#1#2{%
 \strut\hfill\strut%
 \edef\@captype{figure}%
@@ -73,7 +71,6 @@
 \fi%
 }%
 \long\gdef\figureSeriesFloat#1#2{%
-\AddThispageHook{\FloatBarrier}%
 \@figSer@detectColumns%
 \if@figSer@isTwoColumns%
 \@figSer@floatTwoCol{#1}{#2}%
@@ -116,9 +113,36 @@
 \@figSer@longTwoColumnMain[\@figSer@floatingBody]%
 \xdef\@figSer@floatingBody{}%
 }%
+\def\@figSer@pushFloats{%
+\global\let\@figSer@old@toplist\@toplist%
+\gdef\@toplist{}%
+\global\let\@figSer@old@botlist\@botlist%
+\gdef\@botlist{}%
+\global\let\@figSer@old@midlist\@midlist%
+\gdef\@midlist{}%
+\global\let\@figSer@old@currlist\@currlist%
+\gdef\@currlist{}%
+\global\let\@figSer@old@deferlist\@deferlist%
+\gdef\@deferlist{}%
+\global\let\@figSer@old@dbltoplist\@dbltoplist%
+\gdef\@dbltoplist{}%
+\global\let\@figSer@old@dbldeferlist\@dbldeferlist%
+\gdef\@dbldeferlist{}%
+}%
+\def\@figSet@popFloats{%
+\xdef\@toplist{\@figSer@old@toplist\@toplist}%
+\xdef\@botlist{\@figSer@old@botlist\@botlist}%
+\xdef\@midlist{\@figSer@old@midlist\@midlist}%
+\xdef\@currlist{\@figSer@old@currlist\@currlist}%
+\xdef\@deferlist{\@figSer@old@deferlist\@deferlist}%
+\xdef\@dbltoplist{\@figSer@old@dbltoplist\@dbltoplist}%
+\xdef\@dbldeferlist{\@figSer@old@dbldeferlist\@dbldeferlist}%
+}%
 \long\def\@figSer@floatTwoCol#1#2{%
 \ifx\@figSer@floatingBody\@empty%
 \gdef\@figSer@floatingBody{\@figSer@hereOneCol{#1}{#2}}%
+\@figSer@pushFloats%
+\afterpage{\@figSet@popFloats}%
 \if@firstcolumn%
 \afterpage{\afterpage{\@figSer@afterPage}}%
 \else%
