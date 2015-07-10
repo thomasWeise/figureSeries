@@ -109,36 +109,9 @@
 \afterpage{\@figSer@hereOneCol{#1}{#2}}%
 }%
 \xdef\@figSer@floatingBody{}%
-\def\@figSer@pushFloats{%
-\global\let\@figSer@old@toplist\@toplist%
-\gdef\@toplist{}%
-\global\let\@figSer@old@botlist\@botlist%
-\gdef\@botlist{}%
-\global\let\@figSer@old@midlist\@midlist%
-\gdef\@midlist{}%
-\global\let\@figSer@old@currlist\@currlist%
-\gdef\@currlist{}%
-\global\let\@figSer@old@deferlist\@deferlist%
-\gdef\@deferlist{}%
-\global\let\@figSer@old@dbltoplist\@dbltoplist%
-\gdef\@dbltoplist{}%
-\global\let\@figSer@old@dbldeferlist\@dbldeferlist%
-\gdef\@dbldeferlist{}%
-}%
-\def\@figSet@popFloats{%
-\xdef\@toplist{\@figSer@old@toplist\@toplist}%
-\xdef\@botlist{\@figSer@old@botlist\@botlist}%
-\xdef\@midlist{\@figSer@old@midlist\@midlist}%
-\xdef\@currlist{\@figSer@old@currlist\@currlist}%
-\xdef\@deferlist{\@figSer@old@deferlist\@deferlist}%
-\xdef\@dbltoplist{\@figSer@old@dbltoplist\@dbltoplist}%
-\xdef\@dbldeferlist{\@figSer@old@dbldeferlist\@dbldeferlist}%
-}%
 \long\def\@figSer@floatTwoCol#1#2{%
 \ifx\@figSer@floatingBody\@empty%
 \gdef\@figSer@floatingBody{\@figSer@hereOneCol{#1}{#2}}%
-\@figSer@pushFloats%
-\afterpage{\@figSet@popFloats}%
 \if@firstcolumn%
 \afterpage{\afterpage{\@figSer@twoColPrintBody}}%
 \else%
@@ -155,12 +128,12 @@
 \ifx\@figSer@floatingBody\@empty%
 \else%
 \global\setbox\@figSer@box\vbox{\@figSer@floatingBody}%
-\xdef\@figSer@floatingBody{}%
+\global\let\@figSer@floatingBody\@empty%
 \fi%
-\ifdim\ht\@figSer@box>1.00\textheight%
+\ifdim\ht\@figSer@box>\textheight%
 \begingroup%
 \vbadness10000%
-\setbox0\vsplit\@figSer@box to 1.00\textheight%
+\setbox0\vsplit\@figSer@box to \textheight%
 \setbox1\vbox{\unvbox\@figSer@box}%
 \global\setbox\@figSer@box\vbox{\unvbox1}%
 \setbox2\vbox to \textheight{%
