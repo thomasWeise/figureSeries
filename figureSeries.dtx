@@ -63,7 +63,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 %</driver>
 % \fi
 %
-% \CheckSum{235}
+% \CheckSum{230}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -85,8 +85,8 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \changes{v0.9.0}{2014/06/17}{Initial Draft Version}
 % \changes{v0.9.1}{2014/06/18}{Better examples showing the shortcomings of the package (in particular in two-column mode).}
 % \changes{v0.9.2}{2015/02/13}{Shortcomings in two-column mode fixed: vertical column starts are now aligned well.}
-% \changes{v0.9.3}{2015/07/07}{Failed attempt to fix ``Float(s) lost!'' errors.}
-% \changes{v0.9.4}{2015/07/09}{To do.}
+% \changes{v0.9.3}{2015/07/07}{Failed attempt to fix ``! LaTeX Error: Float(s) lost.'' errors.}
+% \changes{v0.9.4}{2015/07/10}{Some minor fixes, but the problem that I thought I solved in release 0.9.3 remains.}
 %
 % \GetFileInfo{figureSeries.dtx}
 %
@@ -105,7 +105,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % {Huangshan Road/Feixi Road, Hefei 230027, Anhui, China}\\%
 % {\texttt{tweise@ustc.edu.cn} $\cdot$ \texttt{tweise@gmx.de}} $\cdot$ \texttt{http://www.it-weise.de/}\\%
 % }}}%
-% \date{\filedate}
+% \date{\today}
 %
 % \maketitle
 %
@@ -562,8 +562,11 @@ pdfkeywords={LaTeX, package, figureSeries}
 %
 % \subsubsection{Mixed \texttt{figureSeries}, \texttt{figure}, and \texttt{figure*}}
 % In Example~\ref{ex:mixed}, we mix |figureSeries| with |figure| and |figure*|
-% environments. This would cause |Float(s) lost!| errors in version |0.9.2| of
-% our package. We again use the |IEEEtran| class~\cite{IEEETRAN}.
+% environments. Something like this would cause |! LaTeX Error: Float(s) lost.| errors
+% in version |0.9.2| of our package. Due to some modifications, this particular document
+% now compiles, but the errors still appear in other documents.
+% 
+% We again use the |IEEEtran| class~\cite{IEEETRAN}.
 % The result is rendered as Figure~\ref{ex:mixed:res}. As you can see, the ordering
 % of the figures in the current version of our package (|0.9.4|) is far from perfect, 
 % but at least the document compiles. In a productive environment, you would have more
@@ -593,7 +596,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \strut\hfill\strut%
 % \subcaptionbox{Page 3 of the pdf compiled from Example~\ref{ex:mixed}.
 % }{%
-% \fbox{\includegraphics[page=3,width=0.45\textwidth,trim=0.65in 0.35in 0.65in 0.75in,clip]{examples/example_3_IEEEtran.pdf}}%
+% \fbox{\includegraphics[page=3,width=0.45\textwidth,trim=0.65in 0.35in 0.65in 0.75in,clip]{examples/example_8.pdf}}%
 % }%
 % \strut\hfill\strut%
 % \caption{The rendered result of Example~\ref{ex:mixed} (with trimmed page margins): %
@@ -988,11 +991,17 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \paragraph{G.}\phantomsection\label{sec:floatsLost}%
 % Another problem we need to deal with is the fact that |afterpage|~\cite{C1995TAPECATPB}
 % has neither been designed for two-column documents nor for situations with other
-% floats flying around. This may lead to  |Float(s) lost!| errors. My first attempt (in version |0.9.3|) to
+% floats flying around. This may lead to  |! LaTeX Error: Float(s) lost.| errors.
+%
+% My first attempt (in version |0.9.3|) to
 % solve this was by issuing a |\FloatBarrier| (from package |placeins|~\cite{A2005TPP})
 % in an |\AddThispageHook| from package |everypage|~\cite{C2007TEP}. This makes the error
 % disappear in some documents (such as in Example~\ref{ex:mixed}), but it re-appears in
-% other documents, which previously compiled well.
+% other documents, which previously compiled well. Currently, this problem remains unsolved.
+%
+% It should be noted that Carlisle~\cite{C1995TAPECATPB} explicitly states in the release notes
+% of the |afterpage| package: \emph{``This implementation does not work in two column mode, and
+% can get `confused' by \LaTeX's floating environments.''} This now comes back here to haunt me.
 % 
 % Alltogether, this is a bit of a Frankenstein's monster. Anyway, here we go with the code.
 %
@@ -1080,14 +1089,12 @@ pdfkeywords={LaTeX, package, figureSeries}
 % |\medskip| something). Right now, I don't have the nerve to check for this,
 % but I may check this again in the future.
 %
-% Furthermore, I don't understand much about \LaTeX\ box registers, which is
-% maybe why I find it a bit dangerous to use boxes at low indexes (|0|, |1|, |2|).
-% Maybe some box registers should explicitly be allocated in one way or another?
-% I am not sre. This probably really is correct, but as I have too limited knowledge, 
-%
-% Anyway, let's begin with the code. First, a new |newsavebox| is allocated.
+% First, two |\newsavebox|s are allocated: |\@figSer@wholeBodyBox| will contain the figure
+% series body from which pieces are chopped off. |\@figSer@printBox| is used to
+% store the piece of the body which will be printed. 
 %    \begin{macrocode}
-\newsavebox\@figSer@box%
+\newsavebox\@figSer@wholeBodyBox%
+\newsavebox\@figSer@printBox%
 %    \end{macrocode}
 %
 % This macro is represents the body of the figure series. In a loop, chunks
@@ -1108,43 +1115,38 @@ pdfkeywords={LaTeX, package, figureSeries}
 \twocolumn[{\@twocolumnfalse%
 %    \end{macrocode}
 % Once and only once, we store the contents of |\@figSer@floatingBody| into the box
-% |\@figSer@box|. Once this is done, |\@figSer@floatingBody| is set to |\@empty|. 
+% |\@figSer@wholeBodyBox|. Once this is done, |\@figSer@floatingBody| is set to |\@empty|. 
 %    \begin{macrocode}
 \ifx\@figSer@floatingBody\@empty%
 \else%
-\global\setbox\@figSer@box\vbox{\@figSer@floatingBody}%
+\global\setbox\@figSer@wholeBodyBox\vbox{\@figSer@floatingBody}%
 \global\let\@figSer@floatingBody\@empty%
 \fi%
 %    \end{macrocode}
 % Check if the contents of our box fit on the current page. 
 %    \begin{macrocode}
-\ifdim\ht\@figSer@box>\textheight%
+\ifdim\ht\@figSer@wholeBodyBox>\textheight%
 %    \end{macrocode}
 % If the contents of our box are bigger then the |\textheight|, we split
 % the box and output the first part on the current page.
 %    \begin{macrocode}
 \begingroup%
 \vbadness10000%
-\setbox0\vsplit\@figSer@box to \textheight%
-\setbox1\vbox{\unvbox\@figSer@box}%
-\global\setbox\@figSer@box\vbox{\unvbox1}%
-\setbox2\vbox to \textheight{%
-\unvbox0%
-}%
-\ht2=0.9\textheight%
-\box2%
+\setbox\@figSer@printBox\vsplit\@figSer@wholeBodyBox to \textheight%
+\global\setbox\@figSer@wholeBodyBox\vbox{\unvbox\@figSer@wholeBodyBox}%
+\box\@figSer@printBox%
 \endgroup%
 \else%
 %    \end{macrocode}
 % If the contents of our box fit on the page but are large, we will issue a |\clearpage|
 % after printing them, otherwise we print them and do nothing.%
 %    \begin{macrocode}
-\ifdim\ht\@figSer@box>0.84\textheight%
+\ifdim\ht\@figSer@wholeBodyBox>0.84\textheight%
 \global\let\@figSer@breakBodyRepeat\clearpage%
 \else%
 \global\let\@figSer@breakBodyRepeat\relax%
 \fi%
-\unvbox\@figSer@box%
+\unvbox\@figSer@wholeBodyBox%
 \vspace{15pt plus 15pt}%
 \fi%
 }]%
@@ -1182,8 +1184,12 @@ pdfkeywords={LaTeX, package, figureSeries}
 \AtEndDocument{\@figSer@AtEndDocumentHook}%
 %    \end{macrocode}
 %
-% \subsection{Tests and Incompatibilities}%
+% \subsection{Errors, Tests, and Incompatibilities}%
 % \label{sec:incompatible}%
+% Currently, the biggest issue with the package is that it causes |! LaTeX Error: Float(s) lost.|
+% errors in two-column mode in conjunction with other floating objects hanging around, as mentioned
+% in Section~\ref{sec:floatsLost}. This is a huge pain and currently remains
+% unsolved.
 %
 % |figureSeries| loads the packages |caption|~\cite{S2011TCPCCIFE},
 % |subcaption|~\cite{S2013TSPSFSC}, and |afterpage|~\cite{C1995TAPECATPB}.

@@ -45,8 +45,8 @@ public class LaTeXCompiler {
     final Path tempDir, reportFile, expected;
     Process p;
     byte[] buf;
-    int times;
-    boolean in, err;
+    int times, inAvail, errAvail;
+    boolean in, err, toggle;
     InputStream ins, errs;
 
     try {
@@ -73,16 +73,20 @@ public class LaTeXCompiler {
             in = err = true;
             ins = p.getInputStream();
             errs = p.getErrorStream();
+            toggle = true;
 
             while (in || err) {
-              if ((in ? ins.available() : (-1)) > (err ? errs.available()
-                  : (-1))) {
+              inAvail = (in ? ins.available() : (-1));
+              errAvail = (err ? errs.available() : (-1));
+              if (toggle ? (inAvail > errAvail) : (inAvail >= errAvail)) {
+                toggle = true;
                 if (in) {
                   if (ins.read(buf) < 0) {
                     in = false;
                   }
                 }
               } else {
+                toggle = false;
                 if (err) {
                   if (errs.read(buf) < 0) {
                     err = false;
@@ -121,8 +125,8 @@ public class LaTeXCompiler {
    * @return {@code true} if it compiled, {@code false} otherwise
    */
   public static final boolean compile(final LaTeXDocument doc) {
-    return (__compile("latex", "dvi", doc) && // //$NON-NLS-1$//$NON-NLS-2$
-    __compile("pdflatex", "pdf", doc)); //$NON-NLS-1$//$NON-NLS-2$
+    return (LaTeXCompiler.__compile("latex", "dvi", doc) && // //$NON-NLS-1$//$NON-NLS-2$
+    LaTeXCompiler.__compile("pdflatex", "pdf", doc)); //$NON-NLS-1$//$NON-NLS-2$
   }
 
   /**

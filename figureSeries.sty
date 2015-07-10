@@ -132,33 +132,29 @@
 \fi%
 }%
 \let\@figSer@hereTwoCol\@figSer@floatTwoCol%
-\newsavebox\@figSer@box%
+\newsavebox\@figSer@wholeBodyBox%
+\newsavebox\@figSer@printBox%
 \def\@figSer@breakBodyRepeat@Orig{%
 \twocolumn[{\@twocolumnfalse%
 \ifx\@figSer@floatingBody\@empty%
 \else%
-\global\setbox\@figSer@box\vbox{\@figSer@floatingBody}%
+\global\setbox\@figSer@wholeBodyBox\vbox{\@figSer@floatingBody}%
 \global\let\@figSer@floatingBody\@empty%
 \fi%
-\ifdim\ht\@figSer@box>\textheight%
+\ifdim\ht\@figSer@wholeBodyBox>\textheight%
 \begingroup%
 \vbadness10000%
-\setbox0\vsplit\@figSer@box to \textheight%
-\setbox1\vbox{\unvbox\@figSer@box}%
-\global\setbox\@figSer@box\vbox{\unvbox1}%
-\setbox2\vbox to \textheight{%
-\unvbox0%
-}%
-\ht2=0.9\textheight%
-\box2%
+\setbox\@figSer@printBox\vsplit\@figSer@wholeBodyBox to \textheight%
+\global\setbox\@figSer@wholeBodyBox\vbox{\unvbox\@figSer@wholeBodyBox}%
+\box\@figSer@printBox%
 \endgroup%
 \else%
-\ifdim\ht\@figSer@box>0.84\textheight%
+\ifdim\ht\@figSer@wholeBodyBox>0.84\textheight%
 \global\let\@figSer@breakBodyRepeat\clearpage%
 \else%
 \global\let\@figSer@breakBodyRepeat\relax%
 \fi%
-\unvbox\@figSer@box%
+\unvbox\@figSer@wholeBodyBox%
 \vspace{15pt plus 15pt}%
 \fi%
 }]%

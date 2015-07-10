@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -35,7 +36,10 @@ public final class LaTeXDocument {
   }
 
   /** the string builder */
-  private final StringBuilder m_text;
+  private StringBuilder m_text;
+
+  /** the finalized data */
+  private char[] m_data;
 
   /** the figure element counter */
   private int m_figureElement;
@@ -54,10 +58,28 @@ public final class LaTeXDocument {
    */
   private LaTeXDocument(final EDocumentClass clazz) {
     super();
+
+    char next;
+    List<String> params;
+
     this.m_text = new StringBuilder();
     this.m_class = clazz;
+    this.m_secDepth = (-1);
 
-    this.__add("\\documentclass{"); //$NON-NLS-1$
+    this.__add("\\documentclass"); //$NON-NLS-1$
+
+    params = clazz.getParams();
+    if (!(params.isEmpty())) {
+      next = '[';
+      for (final String param : params) {
+        this.__add(next);
+        next = ',';
+        this.__add(param);
+      }
+      this.__add(']');
+    }
+
+    this.__add('{');
     this.__add(clazz.getName());
     this.__endCommand();
 
@@ -133,8 +155,14 @@ public final class LaTeXDocument {
 
   /** end the document */
   private final void __endDocument() {
+    final int size;
     this.__add("\\end{document"); //$NON-NLS-1$
     this.__endCommand();
+
+    size = this.m_text.length();
+    this.m_data = new char[size];
+    this.m_text.getChars(0, size, this.m_data, 0);
+    this.m_text = null;
   }
 
   /**
@@ -142,20 +170,16 @@ public final class LaTeXDocument {
    *
    * @return the size of the document
    */
-  public final int size() {
-    return this.m_text.length();
-  }
-
-  /**
-   * Write this document to the given appendable
-   *
-   * @param out
-   *          the destination to write to
-   * @throws IOException
-   *           if i/o fails
-   */
-  public final void writeTo(final Appendable out) throws IOException {
-    out.append(this.m_text);
+  public final long size() {
+    int size, lines;
+    lines = 0;
+    size = this.m_data.length;
+    for (final char ch : this.m_data) {
+      if (ch == '\n') {
+        lines++;
+      }
+    }
+    return ((((long) lines) << 32L) | size);
   }
 
   /**
@@ -169,7 +193,7 @@ public final class LaTeXDocument {
   public final void writeTo(final Path path) throws IOException {
     try (final BufferedWriter bw = Files.newBufferedWriter(path,
         Charset.defaultCharset())) {
-      this.writeTo(bw);
+      bw.write(this.m_data);
     }
   }
 
@@ -396,7 +420,7 @@ public final class LaTeXDocument {
 
   /**
    * make a title
-   * 
+   *
    * @param rand
    *          the random number generator
    */
@@ -415,7 +439,7 @@ public final class LaTeXDocument {
 
   /**
    * make a section
-   * 
+   *
    * @param rand
    *          the random number generator
    */
@@ -452,15 +476,14 @@ public final class LaTeXDocument {
   public static final LaTeXDocument makeRandomDocument(final Random rand) {
     final LaTeXDocument doc;
 
-    doc = new LaTeXDocument(EDocumentClass.ALL.get(rand
-        .nextInt(EDocumentClass.ALL.size())));
+    doc = new LaTeXDocument(EDocumentClass.ALL.get(//
+        rand.nextInt(EDocumentClass.ALL.size())));
 
     if (rand.nextBoolean()) {
       doc.__makeTitle(rand);
     }
 
     do {
-
       switch (rand.nextInt(4)) {
         case 0: {//
           doc.__addFigure(rand);
@@ -482,7 +505,6 @@ public final class LaTeXDocument {
           break;
         }
       }
-
     } while (rand.nextInt(3) > 0);
 
     doc.__endDocument();

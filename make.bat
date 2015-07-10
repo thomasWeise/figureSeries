@@ -55,6 +55,7 @@ pdflatex example_7_LNCS
 pdflatex example_7_LNCS
 pdflatex example_8
 pdflatex example_8
+del figureSeries.sty
 cd ..
 
 pdflatex figureSeries.dtx

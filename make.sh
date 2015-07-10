@@ -39,8 +39,12 @@ rm example_8.pdf
 cd ..
 
 latex figureSeries.ins
-cp figureSeries.sty ./examples/
 
+cd ./errorExamples
+./make.sh
+cd ..
+
+cp figureSeries.sty ./examples/
 cd ./examples
 pdflatex example_1_LNCS
 pdflatex example_1_LNCS
@@ -58,6 +62,7 @@ pdflatex example_7_LNCS
 pdflatex example_7_LNCS
 pdflatex example_8
 pdflatex example_8
+rm figureSeries.sty
 cd ..
 
 pdflatex figureSeries.dtx
