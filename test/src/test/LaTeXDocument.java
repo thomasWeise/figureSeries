@@ -43,6 +43,9 @@ public final class LaTeXDocument {
   /** the document class */
   private final EDocumentClass m_class;
 
+  /** the current section depth */
+  private int m_secDepth;
+
   /**
    * create the document
    *
@@ -194,12 +197,14 @@ public final class LaTeXDocument {
       this.__add('*');
     }
     if (rand.nextBoolean()) {
+      this.__add('[');
       start = (rand.nextInt(100) + 1);
       this.__add(start);
       if (rand.nextBoolean()) {
         this.__add('-');
         this.__add(start + 1 + rand.nextInt(100));
       }
+      this.__add(']');
     }
 
     this.__endLine();
@@ -343,8 +348,9 @@ public final class LaTeXDocument {
 
     do {
       m = (rand.nextInt(5) + 1);
-      width = Math.max(1, Math.min(100, (100 / m)));
-      if (rand.nextBoolean()) {
+      width = Math.max(1, Math.min(100,//
+          ((int) (Math.round((90d + (10d * rand.nextDouble())) / m)))));
+      if (rand.nextBoolean() || (width > 50)) {
         height = (21 + rand.nextInt(80));
       } else {
         height = (-1);
@@ -389,6 +395,54 @@ public final class LaTeXDocument {
   }
 
   /**
+   * make a title
+   * 
+   * @param rand
+   *          the random number generator
+   */
+  private final void __makeTitle(final Random rand) {
+    this.__add("\\title{");//$NON-NLS-1$
+    this.__addCaption(rand);
+    this.__endCommand();
+    if (rand.nextBoolean()) {
+      this.__add("\\author{");//$NON-NLS-1$
+      this.__addCaption(rand);
+      this.__endCommand();
+    }
+    this.__add("\\maketitle");//$NON-NLS-1$
+    this.__endLine();
+  }
+
+  /**
+   * make a section
+   * 
+   * @param rand
+   *          the random number generator
+   */
+  private final void __addSection(final Random rand) {
+    final int depth;
+
+    this.m_secDepth = depth = Math.max(0,
+        Math.min(2, rand.nextInt(this.m_secDepth + 2)));
+    switch (depth) {
+      case 0: {
+        this.__add("\\section{"); //$NON-NLS-1$
+        break;
+      }
+      case 1: {
+        this.__add("\\subsection{");//$NON-NLS-1$
+        break;
+      }
+      default: {
+        this.__add("\\subsubsection{");//$NON-NLS-1$
+        break;
+      }
+    }
+    this.__addCaption(rand);
+    this.__endCommand();
+  }
+
+  /**
    * Create a random LaTeX document
    *
    * @param rand
@@ -401,9 +455,13 @@ public final class LaTeXDocument {
     doc = new LaTeXDocument(EDocumentClass.ALL.get(rand
         .nextInt(EDocumentClass.ALL.size())));
 
+    if (rand.nextBoolean()) {
+      doc.__makeTitle(rand);
+    }
+
     do {
 
-      switch (rand.nextInt(3)) {
+      switch (rand.nextInt(4)) {
         case 0: {//
           doc.__addFigure(rand);
           break;
@@ -411,6 +469,11 @@ public final class LaTeXDocument {
 
         case 1: {
           doc.__addFigureSeries(rand);
+          break;
+        }
+
+        case 2: {
+          doc.__addSection(rand);
           break;
         }
 

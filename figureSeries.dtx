@@ -63,7 +63,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 %</driver>
 % \fi
 %
-% \CheckSum{338}
+% \CheckSum{290}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -995,18 +995,6 @@ pdfkeywords={LaTeX, package, figureSeries}
 %    \end{macrocode}%
 %
 %
-% \begin{macro}{\@figSer@afterPage}
-% This macro is invoked in the context of |\afterpage|. It will switch from single-column
-% to double-column mode but print the body of the figure series first (in single-column
-% mode). It thus solves the problem from \mbox{Section~\ref{sec:switchToTwoColumn}.D} by
-% using the solution from~\cite{H2012MPOCAIATCD} mentioned in \mbox{Section~\ref{sec:long2}.E}.
-%    \begin{macrocode}
-\gdef\@figSer@afterPage{%
-\@figSer@longTwoColumnMain[\@figSer@floatingBody]%
-\xdef\@figSer@floatingBody{}%
-}%
-%    \end{macrocode}
-%  \end{macro}%
 %
 % \begin{macro}{\@figSer@pushFloats}
 % This internal macro stores the commands which seem to be responsible for floating
@@ -1073,9 +1061,9 @@ pdfkeywords={LaTeX, package, figureSeries}
 % are in the first (left) column (|\if@firstcolumn| is true).
 %    \begin{macrocode}
 \if@firstcolumn%
-\afterpage{\afterpage{\@figSer@afterPage}}%
+\afterpage{\afterpage{\@figSer@twoColPrintBody}}%
 \else%
-\afterpage{\@figSer@afterPage}%
+\afterpage{\@figSer@twoColPrintBody}%
 \fi%
 %    \end{macrocode}
 % End of ``new'' figure series.
@@ -1084,7 +1072,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 %    \end{macrocode}
 % OK, if we get here, a figure series is pending. In this case, the body of the current
 % figure is appended to it as discussed in \mbox{Section~\ref{sec:extendBody}.G}. We do not need
-% to |\afterpage| a call to |\@figSer@afterPage| since there must already be one enqueued.
+% to |\afterpage| a call to |\@figSer@twoColPrintBody| since there must already be one enqueued.
 %    \begin{macrocode}
 \g@addto@macro{\@figSer@floatingBody}{\@figSer@hereOneCol{#1}{#2}}%
 \fi%
@@ -1140,7 +1128,12 @@ pdfkeywords={LaTeX, package, figureSeries}
 %  \begin{macro}{\@figSer@breakBodyRepeat@Orig}
 %    \begin{macrocode}
 \def\@figSer@breakBodyRepeat@Orig{%
-\@figSer@longTwoColumn[{\@twocolumnfalse%
+\twocolumn[{\@twocolumnfalse%
+\ifx\@figSer@floatingBody\@empty%
+\else%
+\global\setbox\@figSer@box\vbox{\@figSer@floatingBody}%
+\xdef\@figSer@floatingBody{}%
+\fi%
 \ifdim\ht\@figSer@box>1.00\textheight%
 \begingroup%
 \vbadness10000%
@@ -1168,38 +1161,14 @@ pdfkeywords={LaTeX, package, figureSeries}
 %    \end{macrocode}
 %  \end{macro}%
 %
-%  \begin{macro}{\@figSer@longTwoColumnMain}
+%  \begin{macro}{\@figSer@twoColPrintBody}
 % This is the main entry point to our version of Tom{\'{a}}{\v{s}}~Hejda's method~\cite{H2012MPOCAIATCD},
 % equivalent to his |\longtwo@| macro, with the slight difference that we restore |\@figSer@breakBodyRepeat|
 % and thus can use this macro multiple times.
 %    \begin{macrocode}
-\long\def\@figSer@longTwoColumnMain[#1]{%
+\long\def\@figSer@twoColPrintBody{%
 \let\@figSer@breakBodyRepeat\@figSer@breakBodyRepeat@Orig%
 \begingroup%
-\let\@figSer@longTwoColumn\twocolumn%
-\@figSer@longTwoColumn[{\@twocolumnfalse%
-\global\setbox\@figSer@box\vbox{#1}%
-\ifdim\ht\@figSer@box>\textheight%
-\begingroup%
-\vbadness10000%
-\setbox0\vsplit\@figSer@box to 1.00\textheight%
-\setbox1\vbox{\unvbox\@figSer@box}%
-\global\setbox\@figSer@box\vbox{\unvbox1}%
-\setbox2\vbox to \textheight{%
-\unvbox0%
-}%
-\ht2=0.9\textheight%
-\box2%
-\endgroup%
-\else%
-\ifdim\ht\@figSer@box>0.87\textheight%
-\global\let\@figSer@breakBodyRepeat\clearpage%
-\else%
-\global\let\@figSer@breakBodyRepeat\relax%
-\fi%
-\unvbox\@figSer@box%
-\fi%
-}]%
 \@figSer@breakBodyRepeat%
 \endgroup%
 }%
