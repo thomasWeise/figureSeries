@@ -31,13 +31,18 @@ public class LaTeXCompiler {
   /**
    * compile a given latex document
    *
+   * @param program
+   *          the program to be used for compilation
    * @param doc
    *          the document
+   * @param suffix
+   *          the expected file suffix for the output
    * @return {@code true} if it compiled, {@code false} otherwise
    */
   @SuppressWarnings("resource")
-  public static final boolean compile(final LaTeXDocument doc) {
-    final Path tempDir, reportFile;
+  private static final boolean __compile(final String program,
+      final String suffix, final LaTeXDocument doc) {
+    final Path tempDir, reportFile, expected;
     Process p;
     byte[] buf;
     int times;
@@ -49,6 +54,7 @@ public class LaTeXCompiler {
 
       try {
         reportFile = tempDir.resolve("report.tex");//$NON-NLS-1$
+        expected = tempDir.resolve("report." + suffix);//$NON-NLS-1$
         doc.writeTo(reportFile);
 
         LaTeXCompiler.loadFigureSeries(tempDir);
@@ -57,7 +63,7 @@ public class LaTeXCompiler {
 
         for (times = 3; (--times) >= 0;) {
           p = Runtime.getRuntime().exec(new String[] {//
-              "latex",//$NON-NLS-1$
+              program,//
                   "-interaction=batchmode",//$NON-NLS-1$
                   "-halt-on-error",//$NON-NLS-1$
                   "report"//$NON-NLS-1$
@@ -91,6 +97,10 @@ public class LaTeXCompiler {
           } finally {
             p.destroy();
           }
+
+          if (!(Files.exists(expected))) {
+            return false;
+          }
         }
         return true;
       } finally {
@@ -101,6 +111,18 @@ public class LaTeXCompiler {
     }
 
     return false;
+  }
+
+  /**
+   * compile a given latex document
+   *
+   * @param doc
+   *          the document
+   * @return {@code true} if it compiled, {@code false} otherwise
+   */
+  public static final boolean compile(final LaTeXDocument doc) {
+    return (__compile("latex", "dvi", doc) && // //$NON-NLS-1$//$NON-NLS-2$
+    __compile("pdflatex", "pdf", doc)); //$NON-NLS-1$//$NON-NLS-2$
   }
 
   /**

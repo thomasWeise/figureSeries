@@ -63,7 +63,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 %</driver>
 % \fi
 %
-% \CheckSum{215}
+% \CheckSum{235}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -170,7 +170,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \begin{enumerate}%
 % \item a facility to include an arbitrary number of (potentially differently-sized) sub-figures into a figure*-like construct,%
 % \item the ability to make this figure*-like construct look as if it was a floating object, which%
-% \item works well in both single-column and double-column documents.%
+% \item works well in both single-column and two-column documents.%
 % \end{enumerate}%
 %
 % \textbf{WARNING:}~This is just a  first, hacked-together version
@@ -286,8 +286,8 @@ pdfkeywords={LaTeX, package, figureSeries}
 % 
 % \afterpage{\clearpage}%
 %
-% \subsubsection{Floating Figure Series in Double-Column Document}
-% We now put a floating figure series into a double-column document using the
+% \subsubsection{Floating Figure Series in Two-Column Document}
+% We now put a floating figure series into a two-column document using the
 % |IEEEtran|~\cite{IEEETRAN} class in Example~\ref{ex:ieeetran1}.
 % This new figure series has five rows of sub-figures and
 % should span over multiple pages. The two-column text continues directly
@@ -296,7 +296,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 %
 % \begin{example}%
 % \begin{small}\verbatiminput{examples/example_2_IEEEtran.tex}\end{small}%
-% \caption{An example using the double-column \texttt{IEEEtrans} class, rendered as Figure~\ref{ex:ieeetran1:res}.}%
+% \caption{An example using the two-column \texttt{IEEEtrans} class, rendered as Figure~\ref{ex:ieeetran1:res}.}%
 % \label{ex:ieeetran1}%
 % \end{example}%
 %
@@ -326,23 +326,23 @@ pdfkeywords={LaTeX, package, figureSeries}
 % }%
 % \strut\hfill\strut%
 % \caption{The rendered result of Example~\ref{ex:ieeetran1} (with trimmed page margins): %
-% A floating \texttt{figureSeries} in double-column mode.}%
+% A floating \texttt{figureSeries} in two-column mode.}%
 % \label{ex:ieeetran1:res}%
 % \end{center}%
 % \end{figure}%
 %
 % \afterpage{\clearpage}%
 %
-% \subsubsection{Coalescing Figure Series in Double-Column Document}
+% \subsubsection{Coalescing Figure Series in Two-Column Document}
 % In Example~\ref{ex:ieeetran2}, we put several floating figure series close to
-% each other into a double-column document, again using the |IEEEtran| class~\cite{IEEETRAN}.
+% each other into a two-column document, again using the |IEEEtran| class~\cite{IEEETRAN}.
 % The bodies of the figure series should coalesce without losing their captions, figure
 % numbers, or identities. Since they coalesce, no empty pages are produced in between (see \mbox{Section~\ref{sec:extendBody}.F}).
 % The result is rendered as Figure~\ref{ex:ieeetran2:res}.
 %
 % \begin{example}%
 % \begin{small}\verbatiminput{examples/example_3_IEEEtran.tex}\end{small}%
-% \caption{An example using the double-column \texttt{IEEEtrans} class and two 
+% \caption{An example using the two-column \texttt{IEEEtrans} class and two 
 % coalescing figure series, rendered as Figure~\ref{ex:ieeetran2:res}.}%
 % \label{ex:ieeetran2}%
 % \end{example}%
@@ -373,20 +373,20 @@ pdfkeywords={LaTeX, package, figureSeries}
 % }%
 % \strut\hfill\strut%
 % \caption{The rendered result of Example~\ref{ex:ieeetran2} (with trimmed page margins): %
-% Two floating \texttt{figureSeries} in double-column mode are coalesced, without using their caption and identies.}%
+% Two floating \texttt{figureSeries} in two-column mode are coalesced, without using their caption and identies.}%
 % \label{ex:ieeetran2:res}%
 % \end{center}%
 % \end{figure}%
 %
 % {\clearpage}%
 % 
-% \subsubsection{Double-Column Document with \texttt{sig-alternate}}
+% \subsubsection{Two-Column Document with \texttt{sig-alternate}}
 % In the following Example~\ref{ex:acm}, we test the |figureSeries| together for documents
 % using ACM's |sig-alternate|~\cite{ACMSIGALTERNATE} document class.
 %
 % \begin{example}%
 % \begin{small}\verbatiminput{examples/example_4_sigAlternate.tex}\end{small}%
-% \caption{An example featuring the double-column \texttt{sig-alternate} class. %
+% \caption{An example featuring the two-column \texttt{sig-alternate} class. %
 % The results are rendered as Figure~\ref{ex:acm:res}.}%
 % \label{ex:acm}%
 % \end{example}%
@@ -425,14 +425,14 @@ pdfkeywords={LaTeX, package, figureSeries}
 %
 % \afterpage{\clearpage}%
 % 
-% \subsubsection{Many Small Sub-Figures in Double-Column Document}
+% \subsubsection{Many Small Sub-Figures in Two-Column Document}
 % In the following Example~\ref{ex:acm2} (again based on ACM's |sig-alternate|~\cite{ACMSIGALTERNATE}
 % document class), we put many small sub-figures into a figure. Also, the last paragraph of the text
 % in the example is a reference to one of the sub-figures. The results are rendered as Figure~\ref{ex:acm2:res}.
 %
 % \begin{example}%
 % \begin{small}\verbatiminput{examples/example_5_sigAlternate.tex}\end{small}%
-% \caption{An example featuring the double-column \texttt{sig-alternate} class with a reference to sub-figure. %
+% \caption{An example featuring the two-column \texttt{sig-alternate} class with a reference to sub-figure. %
 % The results are rendered as Figure~\ref{ex:acm2:res}.}%
 % \label{ex:acm2}%
 % \end{example}%
@@ -471,7 +471,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 %
 % \afterpage{\clearpage}%
 % 
-% \subsubsection{Two \texttt{figureSeries} Separated by Text in Double-Column Document}
+% \subsubsection{Two \texttt{figureSeries} Separated by Text in Two-Column Document}
 % In the following Example~\ref{ex:acm3} (again based on ACM's |sig-alternate|~\cite{ACMSIGALTERNATE}
 % document class), we put two |figureSeries| which are separated by text.
 % The results are rendered as Figure~\ref{ex:acm3:res}.
@@ -750,7 +750,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % things need to be done for%
 % \begin{enumerate}%
 % \item the non-floating (``Here'') or floating (``Float'') case, as well as for%
-% \item single-column or double-column documents.%
+% \item single-column or two-column documents.%
 % \end{enumerate}%
 %
 % \begin{macro}{\figureSeriesHere}
@@ -798,7 +798,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \end{macro}
 %
 % \subsection{Internal Utility Definitions and Macros}%
-% The way in which we can create figure series in double-column mode is
+% The way in which we can create figure series in two-column mode is
 % different (and very significantly more complex and dodgy) from how it works in
 % single-column mode. We thus need to detect in which mode we are. This
 % is done in the following code. Since my knowledge of \LaTeX\ and \TeX\
@@ -850,11 +850,17 @@ pdfkeywords={LaTeX, package, figureSeries}
 %       the existing text.%
 % \item Single-column mode and |\figureSeriesFloat|. In this case, we just put our
 %       macro into an |\afterpage| call.
-% \item Double-column mode and |\figureSeriesFloat|: This is the tricky part. We need to
-%       leave double-column mode to single-column mode, insert our environment, and revert
-%       back to double-column mode. This causes all sorts of problems and oddities, as discussed later.
-% \item Double-column mode and |\figureSeriesHere|: Same as Double-column mode and |\figureSeriesFloat|.%
+% \item Two-column mode and |\figureSeriesFloat|: This is the tricky part. We need to
+%       leave two-column mode to single-column mode, insert our environment, and revert
+%       back to two-column mode. This causes all sorts of problems and oddities, as discussed later.
+% \item Two-column mode and |\figureSeriesHere|: Same as two-column mode and |\figureSeriesFloat|.%
 %\end{enumerate}%
+%
+% Additionally, we need to deal with are documents that contain only a |figureSeries|
+% but no other contents. In that case, no output will be produced as no page will ever end
+% and, hence, the contents of |\afterpage| will never be invoked. We therefore add a
+% |\AtEndDocument| hook to create the necessary page. We discuss this issue and present
+% the corresponding code in Section~\ref{sec:emptyDocuments}.
 %
 % Anyway, before getting down to business, we first declare |\@figSer@delayedCaption| as the initially
 % empty container for captions, as discussed when introducing the |\figureSeriesRow| macro in
@@ -910,14 +916,22 @@ pdfkeywords={LaTeX, package, figureSeries}
 % It basically places the output created by |\@figSer@hereOneCol| into an |\afterpage| call,
 % giving it the same look-and-feel as |\@figSer@hereOneCol| while also looking like a
 % floating object.
+%
+% We furthermore set |\@figSer@AtEndDocumentHook| to |\clearpage| to deal
+% with figure series' in an otherwise empty document, which would never be
+% laid our if we do not artificially create a page, according to Section~\ref{sec:emptyDocuments}.
 %    \begin{macrocode}
 \long\def\@figSer@floatOneCol#1#2{%
-\afterpage{\@figSer@hereOneCol{#1}{#2}}%
+\gdef\@figSer@AtEndDocumentHook{\clearpage}%
+\afterpage{%
+\@figSer@hereOneCol{#1}{#2}%
+\xdef\@figSer@AtEndDocumentHook{\relax}%
+}%
 }%
 %    \end{macrocode}
 % \end{macro}
 % 
-% \subsubsection{Double-Column Mode}%
+% \subsubsection{Two-Column Mode}%
 % \label{sec:doubleColumn}%
 % Here we discuss the last two cases from Section~\ref{sec:cases}.
 %
@@ -929,30 +943,30 @@ pdfkeywords={LaTeX, package, figureSeries}
 % of many figures which may span over multiple pages. If we would restrict them to single-column
 % elements, then they could start in the middle of left column and end in the middle of the
 % right column. That would look very odd. Also, it is our goal to create something which looks
-% more or less the same, regardless whether the document is typeset as single- or double-column.%
+% more or less the same, regardless whether the document is typeset as single- or two-column.%
 %
 % \paragraph{B.}\phantomsection\label{sec:doubleColumnToSingleColumn}%
-% This means we need to switch to single-column mode if we are in double-column mode. We can
+% This means we need to switch to single-column mode if we are in two-column mode. We can
 % do that with the |\onecolumn| command, but this will always begin a new page. This
 % could mean that we get a (true) page break after only half of the left column. This would
-% look odd. But OK, we can define figure series in double-column mode as floating objects
+% look odd. But OK, we can define figure series in two-column mode as floating objects
 % by default and use the same |\afterpage| facility that we used to make figure series in
 % single-column mode float. We then just put the |\onecolumn| into the stuff we float away
 % with |\afterpage| and avoid the ugly page break in the middle of the text.
 %
 % \paragraph{C.}%
-% In double-column mode, |\afterpage| behaves more like ``|\aftercolumn|''. That is, if we
+% In two-column mode, |\afterpage| behaves more like ``|\aftercolumn|''. That is, if we
 % are currently in the left column, its contents will not be rendered at the start of the
 % next page, but at the start of the right column. Only if we are in the right column,
 % it will put our stuff on the next page. Well, this is already the answer: If we are
 % in the left column, we do something like |\afterpage{\afterpage{...}}|.%
 %
 % \paragraph{D.}\phantomsection\label{sec:switchToTwoColumn}%
-% The biggest problem is that we need to switch back to double-column mode after our
+% The biggest problem is that we need to switch back to two-column mode after our
 % figure series. We can do that with the |\twocolumn| command, but this will entail
 % a |\clearpage| afterwards. This means that even if our figure series only occupies the top
 % 20\% of a page, there will be a page break, leaving the rest of the page blank before
-% continuing in double-column mode.%
+% continuing in two-column mode.%
 %
 % \paragraph{E.}\phantomsection\label{sec:long2}%%
 % After searching for a long time for a solution, I found a lead in an answer to the
@@ -972,7 +986,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % must be emptied.
 %
 % \paragraph{G.}\phantomsection\label{sec:floatsLost}%
-% The final problem we need to deal with is the fact that |afterpage|~\cite{C1995TAPECATPB}
+% Another problem we need to deal with is the fact that |afterpage|~\cite{C1995TAPECATPB}
 % has neither been designed for two-column documents nor for situations with other
 % floats flying around. This may lead to  |Float(s) lost!| errors. My first attempt (in version |0.9.3|) to
 % solve this was by issuing a |\FloatBarrier| (from package |placeins|~\cite{A2005TPP})
@@ -1006,11 +1020,21 @@ pdfkeywords={LaTeX, package, figureSeries}
 % We let it float by putting it into an |\afterpage| if we already are in the
 % second (right) column (|\if@firstcolumn| is false) or into two nested |\afterpage|s, if we
 % are in the first (left) column (|\if@firstcolumn| is true).
+%
+% We furthermore set |\@figSer@AtEndDocumentHook| to |\clearpage| to deal
+% with figure series' in an otherwise empty document, which would never be
+% laid our if we do not artificially create a page, according to Section~\ref{sec:emptyDocuments}.
 %    \begin{macrocode}
+\gdef\@figSer@AtEndDocumentHook{\clearpage}%
 \if@firstcolumn%
-\afterpage{\afterpage{\@figSer@twoColPrintBody}}%
+\afterpage{\afterpage{%
+\@figSer@twoColPrintBody%
+\xdef\@figSer@AtEndDocumentHook{\relax}%
+}}%
 \else%
-\afterpage{\@figSer@twoColPrintBody}%
+\afterpage{\@figSer@twoColPrintBody%
+\xdef\@figSer@AtEndDocumentHook{\relax}%
+}%
 \fi%
 %    \end{macrocode}
 % End of ``new'' figure series.
@@ -1029,8 +1053,8 @@ pdfkeywords={LaTeX, package, figureSeries}
 %
 % \begin{macro}{\@figSer@hereTwoCol}
 % The macro |\@figSer@hereTwoCol| represents the fourth case listed in Section~\ref{sec:cases}.
-% Since there is no way we can have a page-wide object in the middle of a double-column page
-% that I know of, for now, this case simply behaves like the double-column floating case.
+% Since there is no way we can have a page-wide object in the middle of a two-column page
+% that I know of, for now, this case simply behaves like the two-column floating case.
 %    \begin{macrocode}
 \let\@figSer@hereTwoCol\@figSer@floatTwoCol%
 %    \end{macrocode}
@@ -1146,6 +1170,18 @@ pdfkeywords={LaTeX, package, figureSeries}
 %    \end{macrocode}
 %  \end{macro}
 %
+% \subsubsection{Empty Documents}%
+% \label{sec:emptyDocuments}%
+% Empty documents pose a threat. If no page is to end, the contents of |\afterpage| will not be invoked.
+% Hence, we add a hook via |\AtEndDocument|. This hook (|\@figSer@AtEndDocumentHook|) will be |\relax|,
+% unless a figure series is currently pending in an |\afterpage|. In this case, it is |\clearpage|.
+% This should only happen if the document was empty. As soon as the figure series is laid out,
+% the hook will be reset to |\relax|.%
+%    \begin{macrocode}
+\xdef\@figSer@AtEndDocumentHook{\relax}%
+\AtEndDocument{\@figSer@AtEndDocumentHook}%
+%    \end{macrocode}
+%
 % \subsection{Tests and Incompatibilities}%
 % \label{sec:incompatible}%
 %
@@ -1157,7 +1193,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \subsection{Related Work}%
 % The |longfigure| package~\cite{A2014TLPPAFLETBOP} provides a similar functionality,
 % i.e., a figure environment that can wrap over multiple pages. This environment can
-% be made to float by using |\afterpage|, but does not work in double-column documents.
+% be made to float by using |\afterpage|, but does not work in two-column documents.
 %
 % Tom{\'{a}}{\v{s}}~Hejda's method~\cite{H2012MPOCAIATCD}, which is used by our
 % package, may be extended to provide similar functionality, if it is published
