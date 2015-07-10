@@ -14,6 +14,7 @@ rm figureSeries.ps
 rm figureSeries.toc
 rm figureSeries.sty
 rm figureSeries.pdf
+rm texput.log
 
 cd ./examples
 rm figureSeries.sty
@@ -98,5 +99,7 @@ rm *.out
 rm *.ps
 rm *.toc
 cd ..
+
+rm texput.log
 
 evince figureSeries.pdf
