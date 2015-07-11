@@ -16,9 +16,7 @@ public final class Main implements Runnable {
   /** the output path */
   private Path m_out;
   /** the first file */
-  private Path m_file1;
-  /** the second file */
-  private Path m_file2;
+  private Path[] m_files;
   /** the shortest example */
   private long m_shortest;
 
@@ -32,6 +30,8 @@ public final class Main implements Runnable {
    */
   public static void main(final String[] args) throws IOException {
     final Main job;
+    int i;
+    String name;
 
     System.out.println(//
         "This test program tries to find documents using the figureSeries package that do not compile.");//$NON-NLS-1$
@@ -57,21 +57,25 @@ public final class Main implements Runnable {
     LaTeXCompiler.delete(job.m_out);
     Files.createDirectories(job.m_out);
 
-    job.m_file1 = job.m_out.resolve("firstExample.tex"); //$NON-NLS-1$
-    job.m_file2 = job.m_out.resolve("secondExample.tex"); //$NON-NLS-1$
-    try {
-      Files.delete(job.m_file1);
-    } catch (final NoSuchFileException ignore) { // ignore
-    }
-    try {
-      Files.delete(job.m_file2);
-    } catch (final NoSuchFileException ignore) { // ignore
+    job.m_files = new Path[30];
+    for (i = job.m_files.length; (--i) >= 0;) {
+      name = "errorExample_";//$NON-NLS-1$
+      if (i < 9) {
+        name += '0';
+      }
+      name += (i + 1);
+      job.m_files[i] = job.m_out.resolve(name + ".tex"); //$NON-NLS-1$
+
+      try {
+        Files.delete(job.m_files[i]);
+      } catch (final NoSuchFileException ignore) { // ignore
+      }
     }
 
     System.out.println("Printing files to " + job.m_out); //$NON-NLS-1$
     job.m_shortest = Long.MAX_VALUE;
 
-    for (int i = Math.max(1, Runtime.getRuntime().availableProcessors()); (--i) >= 0;) {
+    for (i = Math.max(1, Runtime.getRuntime().availableProcessors()); (--i) >= 0;) {
       new Thread(job).start();
     }
   }
@@ -82,6 +86,7 @@ public final class Main implements Runnable {
     final Random rand;
     LaTeXDocument doc;
     long current;
+    int i;
 
     rand = new Random();
     for (;;) {
@@ -93,19 +98,23 @@ public final class Main implements Runnable {
           try {
             if (this.m_shortest > current) {
               if (this.m_shortest < Long.MAX_VALUE) {
-                try {
-                  Files.delete(this.m_file2);
-                } catch (final NoSuchFileException ignore) { // ignore
-                }
-                Files.copy(this.m_file1, this.m_file2);
-                try {
-                  Files.delete(this.m_file1);
-                } catch (final NoSuchFileException ignore) { // ignore
+                for (i = this.m_files.length; (--i) >= 0;) {
+                  if (Files.exists(this.m_files[i])) {
+                    try {
+                      Files.delete(this.m_files[i]);
+                    } catch (final NoSuchFileException ignore) { // ignore
+                    }
+                  }
+                  if (i > 0) {
+                    if (Files.exists(this.m_files[i - 1])) {
+                      Files.copy(this.m_files[i - 1], this.m_files[i]);
+                    }
+                  }
                 }
               } else {
                 LaTeXCompiler.loadFigureSeries(this.m_out);
               }
-              doc.writeTo(this.m_file1);
+              doc.writeTo(this.m_files[0]);
               doc = null;
               this.m_shortest = current;
               System.out.println(//

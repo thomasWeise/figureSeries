@@ -63,7 +63,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 %</driver>
 % \fi
 %
-% \CheckSum{230}
+% \CheckSum{252}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -170,7 +170,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \begin{enumerate}%
 % \item a facility to include an arbitrary number of (potentially differently-sized) sub-figures into a figure*-like construct,%
 % \item the ability to make this figure*-like construct look as if it was a floating object, which%
-% \item works well in both single-column and two-column documents.%
+% \item works well in both one-column and two-column documents.%
 % \end{enumerate}%
 %
 % \textbf{WARNING:}~This is just a  first, hacked-together version
@@ -221,7 +221,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % The contents of a figure series should be a sequence of |\figureSeriesRow| calls.
 %
 % Since figure series are page-wide elements, starting them in the middle of the page only works
-% in single-column documents. In two-column documents, any figure series will behave as specified in
+% in one-column documents. In two-column documents, any figure series will behave as specified in
 % macro |\figureSeriesFloat| below.
 %
 % \DescribeMacro{\figureSeriesFloat}
@@ -243,13 +243,13 @@ pdfkeywords={LaTeX, package, figureSeries}
 %
 % \subsubsection{Non-Floating Figure Series in Single-Column Document}%
 % In Example~\ref{ex:llncs} we place a non-floating figure series consisting of two rows of
-% figures into a single-column document using Springer's document class |llncs|~\cite{SPRINGERLNCS}.
+% figures into a one-column document using Springer's document class |llncs|~\cite{SPRINGERLNCS}.
 % The result can be seen in Figure~\ref{ex:llncs:res} and compared with a floating version in Figure~\ref{ex:llncs2:res},
 % which represents the floating version of this example (given in Example~\ref{ex:llncs2}).
 % 
 % \begin{example}%
 % \begin{small}\verbatiminput{examples/example_1_LNCS.tex}\end{small}%
-% \caption{An example using the single-column \texttt{llncs} class, rendered as Figure~\ref{ex:llncs:res}.}%
+% \caption{An example using the one-column \texttt{llncs} class, rendered as Figure~\ref{ex:llncs:res}.}%
 % \label{ex:llncs}%
 % \end{example}%
 %
@@ -523,7 +523,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 %
 % \begin{example}%
 % \begin{small}\verbatiminput{examples/example_7_LNCS.tex}\end{small}%
-% \caption{An example using the single-column \texttt{llncs} class, rendered as Figure~\ref{ex:llncs2:res}.}%
+% \caption{An example using the one-column \texttt{llncs} class, rendered as Figure~\ref{ex:llncs2:res}.}%
 % \label{ex:llncs2}%
 % \end{example}%
 %
@@ -553,7 +553,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % }%
 % \strut\hfill\strut%
 % \caption{The rendered result of Example~\ref{ex:llncs2} (with trimmed page margins): %
-% A \texttt{figureSeries} floating in single-column mode (see Example~\ref{ex:llncs} for the non-floating version).}%
+% A \texttt{figureSeries} floating in one-column mode (see Example~\ref{ex:llncs} for the non-floating version).}%
 % \label{ex:llncs2:res}%
 % \end{center}%
 % \end{figure}%
@@ -561,11 +561,12 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \afterpage{\clearpage}%
 %
 % \subsubsection{Mixed \texttt{figureSeries}, \texttt{figure}, and \texttt{figure*}}
+% \begin{sloppypar}%
 % In Example~\ref{ex:mixed}, we mix |figureSeries| with |figure| and |figure*|
 % environments. Something like this would cause |! LaTeX Error: Float(s) lost.| errors
 % in version |0.9.2| of our package. Due to some modifications, this particular document
 % now compiles, but the errors still appear in other documents.
-% 
+% \end{sloppypar}%
 % We again use the |IEEEtran| class~\cite{IEEETRAN}.
 % The result is rendered as Figure~\ref{ex:mixed:res}. As you can see, the ordering
 % of the figures in the current version of our package (|0.9.4|) is far from perfect, 
@@ -641,6 +642,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 %    \begin{macrocode}
 \newif\if@figSer@captionCompatibilityFalse%
 \@figSer@captionCompatibilityFalsefalse%
+%
 %    \end{macrocode}
 %
 % After the flag has been allocated and set to |false|, we check for Springer's |llncs.cls| (in a crude way).
@@ -651,15 +653,16 @@ pdfkeywords={LaTeX, package, figureSeries}
 %    \begin{macrocode}
 \ifx\spnewtheorem\@undefined%
 \else%
-\@figSer@captionCompatibilityFalsetrue%
+\@figSer@captionCompatibilityFalsetrue%     
 \fi%
+%
 %    \end{macrocode}
 %
 % Now we can load the |caption|~\cite{S2011TCPCCIFE} package with the right ``|compatibility|'' setting.
 %
 %    \begin{macrocode}
 \if@figSer@captionCompatibilityFalse%
-\RequirePackage[compatibility=false]{caption}%
+\RequirePackage[compatibility=false]{caption}% 
 \else%
 \RequirePackage{caption}%
 \fi%
@@ -702,7 +705,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 \strut\hfill\strut%
 \edef\@captype{figure}%
 \subcaptionbox{#1}{#2}%
-\strut\hfill\strut%%
+\strut\hfill\strut%
 }%
 %    \end{macrocode}
 % \end{macro}
@@ -712,21 +715,30 @@ pdfkeywords={LaTeX, package, figureSeries}
 % the figure series. Its single argument should thus contain a sequence of |\figureSeriesElement|s.
 % Since sub-figures are placed row-by-row, no sub-figure can span multiple rows.
 %
+% We want to avoid having a figure series broken right below the caption, i.e., having a caption
+% alone at the bottom of a page and the first row of sub-figures coming on the next page.
+% Therefore, we temporarily store the overall caption of the figure series in |\@figSer@delayedCaption|
+% and print it together with the first figure row.
+%
+%    \begin{macrocode}
+\global\let\@figSer@delayedCaption\@empty%
+%    \end{macrocode}
+% 
 % If the overall caption of the figure series has not yet been printed, it would be stored in
 % |\@figSer@delayedCaption|. Thus, if |\@figSer@delayedCaption| is not empty,
 % this macro first prints the delayed caption and then the contents of the row together in
-% a |\parbox| command which is wrapped into a |center| environment. 
-% The reason why we need to delay caption printing is that \LaTeX's page breaking algorithm may
-% separate the caption from the first figure row if the figure series starts close to the bottom
+% a |\parbox| command which is wrapped into a |center| environment.
+% 
+% Again, the reason why we need to delay caption printing is that \LaTeX's page breaking algorithm
+% may separate the caption from the first figure row if the figure series starts close to the bottom
 % of the page. Thus, we pack the delayed caption together with the first row of figures into a
-% |\parbox| command. |\parbox|es are not affected by page breaking and always remain as solid
-% objects. If the caption has already been printed, i.e., |\@figSer@delayedCaption| is empty,
-% we do not need the awkward |\parbox|.
+% |\parbox| command. |\parbox|es are (hopefully) not affected by page breaking and (hopefully) always
+% remain as solid objects. If the caption has already been printed, i.e.,
+% |\@figSer@delayedCaption| is empty, we do not need the awkward |\parbox|.
 %
 % Plain |\parbox|es, however, seem to not work we with the breaking of the |figureSeries| into
-% multiple pieces to facilitate page breaking later on. Thus, we need to wrap everything into
-% a |center| environment. Since I am not sure why this is (see Section~\ref{sec:codeBasedOnLong2}), this may be
-% one of dodgy parts of this package.
+% multiple pieces to facilitate page breaking later on. Thus, we (need to?) wrap everything into
+% a |center| environment.
 %
 %    \begin{macrocode}
 \long\gdef\figureSeriesRow#1{%
@@ -737,7 +749,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 \else%
 \parbox[b]{\textwidth}{%
 \@figSer@delayedCaption%
-\xdef\@figSer@delayedCaption{}%
+\global\let\@figSer@delayedCaption\@empty%    
 \vspace\abovecaptionskip%
 \strut#1\strut%
 }%
@@ -747,14 +759,19 @@ pdfkeywords={LaTeX, package, figureSeries}
 %    \end{macrocode}
 % \end{macro}
 %
-% 
 % The following two macros, |\figureSeriesHere| and |\figureSeriesFloat|, basically act as switches
 % according to the different situations given in Section~\ref{sec:cases}. Basically, different
 % things need to be done for%
 % \begin{enumerate}%
 % \item the non-floating (``Here'') or floating (``Float'') case, as well as for%
-% \item single-column or two-column documents.%
+% \item one-column or two-column documents.%
 % \end{enumerate}%
+%
+% We use the command |\@figSer@floatingBody| to temporarily store any floating figure series.
+% If this command is |\@empty|, no floating figure series is pending.
+%    \begin{macrocode}
+\global\let\@figSer@floatingBody\@empty%
+%    \end{macrocode}
 %
 % \begin{macro}{\figureSeriesHere}
 % The  macro |\figureSeriesHere|\marg{caption}\marg{contents} tries to insert a non-floating figure
@@ -769,15 +786,24 @@ pdfkeywords={LaTeX, package, figureSeries}
 % The contents of a figure series should be a sequence of |\figureSeriesRow| calls.
 %
 % Since figure series are page-wide elements, starting them in the middle of the page only works
-% in single-column documents. In two-column documents, any figure series will behave as specified in
+% in one-column documents. In two-column documents, any figure series will behave as specified in
 % macro |\figureSeriesFloat| below.
+%
+% Furthermore, if a floating figure series is already pending for insertion, we will not print
+% the current figure series here but attach it to the floating one. This will ensure that the
+% order in which figure series' are printed is always the same as the order in which they are
+% declared. 
 %    \begin{macrocode}
 \long\def\figureSeriesHere#1#2{%
+\ifx\@figSer@floatingBody\@empty%
 \@figSer@detectColumns%
 \if@figSer@isTwoColumns%
-\@figSer@hereTwoCol{#1}{#2}%
+\@figSer@floatTwoCol{#1}{#2}%
 \else%
-\@figSer@hereOneCol{#1}{#2}%
+\@figSer@print{#1}{#2}%
+\fi%
+\else%
+\g@addto@macro{\@figSer@floatingBody}{\@figSer@print{#1}{#2}}%
 \fi%
 }%
 %    \end{macrocode}
@@ -786,15 +812,20 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \begin{macro}{\figureSeriesFloat}
 % The  macro |\figureSeriesFloat|\marg{caption}\marg{contents} takes the same parameters
 % as |\figureSeriesHere|, but has a float-like behavior. By using the |\afterpage| command from the
-% |afterpage| package~\cite{C1995TAPECATPB}, we let it start at the following page. This is different from \LaTeX'
-% normal floating behavior, but as good as we can get with page-breaking objects, I think.
+% |afterpage| package~\cite{C1995TAPECATPB}, we let it start at the following page.
+% This is different from \LaTeX' normal floating behavior, but as good as we can get with
+% page-breaking objects, I think.
 %    \begin{macrocode}
 \long\gdef\figureSeriesFloat#1#2{%
+\ifx\@figSer@floatingBody\@empty%
 \@figSer@detectColumns%
 \if@figSer@isTwoColumns%
 \@figSer@floatTwoCol{#1}{#2}%
 \else%
 \@figSer@floatOneCol{#1}{#2}%
+\fi%
+\else%
+\g@addto@macro{\@figSer@floatingBody}{\@figSer@print{#1}{#2}}%
 \fi%
 }%
 %    \end{macrocode}
@@ -803,18 +834,46 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \subsection{Internal Utility Definitions and Macros}%
 % The way in which we can create figure series in two-column mode is
 % different (and very significantly more complex and dodgy) from how it works in
-% single-column mode. We thus need to detect in which mode we are. This
+% one-column mode. We thus need to detect in which mode we are. This
 % is done in the following code. Since my knowledge of \LaTeX\ and \TeX\
 % is very limited, this may be quite a crude approach. Also, this
 % code will probably not work if you load the |multicol| package.
 % It will definitely not work with more than two columns.
+%
+% \subsubsection{Printing a Figure Series}
+% Our figure series are basically nothing else than simple arrays of rows.
+% Each |\figureSeriesRow| is wrapped into a |center| environment and the
+% |\figureSeriesElement|s are horizontally distributed inside using |\strut|s and |\hfill|s.
+%
+% Here we define the macro for printing our figure series. The rest of the package
+% will deal with the logic where and how to invoke it.
+%
+% \begin{macro}{\@figSer@print}
+% The  macro |\@figSer@print|\marg{caption}\marg{contents} does the work of
+% printing the figure series.
+%    \begin{macrocode} 
+\long\def\@figSer@print#1#2{%
+\def\@figSer@delayedCaption{%
+\noindent\parbox{\textwidth}{%
+\captionof{figure}{#1}%
+\global\advance\c@figure by 0%
+}%
+\par}%
+\begin{center}%
+#2%
+\end{center}%
+\medskip%
+}%
+%    \end{macrocode}
+% \end{macro}
+%
 %
 % \subsubsection{Two-Column Mode Detection}
 % Anyway, I first define a new Boolean flag |\if@figSer@isTwoColumns|, which will
 % denote whether or not we are in two-column mode. It is initialized to |false|.
 %    \begin{macrocode}
 \newif\if@figSer@isTwoColumns%
-\@figSer@isTwoColumnsfalse%%
+\@figSer@isTwoColumnsfalse%
 %    \end{macrocode}
 %
 % \begin{macro}{\@figSer@detectColumns}
@@ -838,131 +897,82 @@ pdfkeywords={LaTeX, package, figureSeries}
 %    \end{macrocode}
 % \end{macro}
 %
+%
+%
 % \subsubsection{The Four Cases}%
 % \label{sec:cases}%
-% Our figure series are basically nothing else than simple array of rows.
-% Each |\figureSeriesRow| is a |\parbox| wrapped into a |center| environment and the
-% |\figureSeriesElement|s are horizontally distributed inside using |\strut|s and |\hfill|s.
 %
-% There are four situations that need to be distinguished when building a |figureSeries| and
-% for each of which we define an appropriate internal macro:%
+% If no figure series is already pending for layout (we took care of this in the user interface
+% macros), then there are four situations that need to be distinguished when building a
+% |figureSeries| and for each of those, we define an appropriate internal macro:%
 %
 % \begin{enumerate}%
 % \item Single-column mode and |\figureSeriesHere|. This is the easiest situation,
-%       we just apply the approach discussed above as-is. It will perfectly line into
-%       the existing text.%
+%       we just apply |\@figSer@print{#1}{#2}| directly (in the user interface macros).
+%       The figure series will perfectly line into the existing text.%
 % \item Single-column mode and |\figureSeriesFloat|. In this case, we just put our
 %       macro into an |\afterpage| call.
 % \item Two-column mode and |\figureSeriesFloat|: This is the tricky part. We need to
-%       leave two-column mode to single-column mode, insert our environment, and revert
+%       leave two-column mode to one-column mode, insert our environment, and revert
 %       back to two-column mode. This causes all sorts of problems and oddities, as discussed later.
-% \item Two-column mode and |\figureSeriesHere|: Same as two-column mode and |\figureSeriesFloat|.%
+% \item Two-column mode and |\figureSeriesHere|: Same as two-column mode and |\figureSeriesFloat|,
+%       since we need to switch to one-column mode for the series anyway.
 %\end{enumerate}%
 %
 % Additionally, we need to deal with are documents that contain only a |figureSeries|
-% but no other contents. In that case, no output will be produced as no page will ever end
+% but no other contents. In that case, no output would be produced as no page will ever end
 % and, hence, the contents of |\afterpage| will never be invoked. We therefore add a
 % |\AtEndDocument| hook to create the necessary page. We discuss this issue and present
 % the corresponding code in Section~\ref{sec:emptyDocuments}.
 %
-% Anyway, before getting down to business, we first declare |\@figSer@delayedCaption| as the initially
-% empty container for captions, as discussed when introducing the |\figureSeriesRow| macro in
-% Section~\ref{sec:figureSeriesRow}.
-%    \begin{macrocode}
-\edef\@figSer@delayedCaption{}%
-%    \end{macrocode}
-%
-% \subsubsection{Single-Column Mode}%
-% Here we discuss the first two cases from Section~\ref{sec:cases}.
-% \begin{macro}{\@figSer@hereOneCol}
-% The internal macro performing the work of |\figureSeriesHere| in single-column mode.
-% It takes the same arguments as |\figureSeriesHere|.
-%    \begin{macrocode}
-\long\def\@figSer@hereOneCol#1#2{%
-%    \end{macrocode}
-% We first store the caption in |\@figSer@delayedCaption| to later be picked up
-% and printed by |\figureSeriesRow| (as discussed in Section~\ref{sec:figureSeriesRow})
-% in order to prevent \LaTeX\ from putting it alone on the foot of a page.%
-% We put the caption into a separate |\parbox|,
-% because otherwise the first row of sub-figures will have captions on top instead of
-% below (for some reason not clear to me).
-%    \begin{macrocode}
-\def\@figSer@delayedCaption{%
-\noindent\parbox{\textwidth}{%
-\captionof{figure}{#1}%
-%    \end{macrocode}
-% This command makes the figure caption counter's value global, preserving it
-% for outside the |\parbox|. Otherwise, the figure counter would always remain 0
-% (if only |figureSeries| are used).
-%    \begin{macrocode}
-\global\advance\c@figure by 0%
-}%
-\par}%
-%    \end{macrocode}
-% Put the contents of the figure series.
-%    \begin{macrocode}
-\begin{center}%
-#2%
-\end{center}%
-%    \end{macrocode}
-% After the figure series body, we add some small spacing to prevent the text from
-% starting too close to it.
-%    \begin{macrocode}
-\medskip%
-}%
-%    \end{macrocode}
-% \end{macro}
-%
 % \begin{macro}{\@figSer@floatOneCol}
-% The internal macro performing the work of |\figureSeriesFloat| in single-column mode.
-% It takes the same arguments as |\figureSeriesFloat|.
-% It basically places the output created by |\@figSer@hereOneCol| into an |\afterpage| call,
-% giving it the same look-and-feel as |\@figSer@hereOneCol| while also looking like a
-% floating object.
-%
-% We furthermore set |\@figSer@AtEndDocumentHook| to |\clearpage| to deal
-% with figure series' in an otherwise empty document, which would never be
-% laid our if we do not artificially create a page, according to Section~\ref{sec:emptyDocuments}.
+% The internal macro performing the work of |\figureSeriesHere| in one-column mode
+% for floating figure series. This macro is called only if no other floating figure
+% series is pending, i.e., |\@figSer@floatingBody| will be |\@empty| and no |\afterpage|
+% call is pending (from the |figureSeries| package, that is).  
 %    \begin{macrocode}
 \long\def\@figSer@floatOneCol#1#2{%
-\gdef\@figSer@AtEndDocumentHook{\clearpage}%
+\@figSer@hook%
+\gdef\@figSer@floatingBody{\@figSer@print{#1}{#2}}% 
 \afterpage{%
-\@figSer@hereOneCol{#1}{#2}%
-\xdef\@figSer@AtEndDocumentHook{\relax}%
+\@figSer@floatingBody%
+\global\let\@figSer@floatingBody\@empty%
+\@figSer@unhook%
 }%
 }%
 %    \end{macrocode}
 % \end{macro}
+%
 % 
 % \subsubsection{Two-Column Mode}%
 % \label{sec:doubleColumn}%
-% Here we discuss the last two cases from Section~\ref{sec:cases}.
 %
-% Documents with two columns create a big headache. After a long search, I think I have
-% more or less got a working solution. The problem is as follows:%
+% Documents with two columns create a big headache. After a long search, I think I am
+% close to working solution. The problem is as follows:%
 %
 % \paragraph{A.}%
 % Figure series make only sense as page-wide constructs. Figure series can include a sequence
-% of many figures which may span over multiple pages. If we would restrict them to single-column
+% of many figures which may span over multiple pages. If we would restrict them to one-column
 % elements, then they could start in the middle of left column and end in the middle of the
 % right column. That would look very odd. Also, it is our goal to create something which looks
 % more or less the same, regardless whether the document is typeset as single- or two-column.%
 %
 % \paragraph{B.}\phantomsection\label{sec:doubleColumnToSingleColumn}%
-% This means we need to switch to single-column mode if we are in two-column mode. We can
+% This means we need to switch to one-column mode if we are in two-column mode. We can
 % do that with the |\onecolumn| command, but this will always begin a new page. This
 % could mean that we get a (true) page break after only half of the left column. This would
 % look odd. But OK, we can define figure series in two-column mode as floating objects
 % by default and use the same |\afterpage| facility that we used to make figure series in
-% single-column mode float. We then just put the |\onecolumn| into the stuff we float away
+% one-column mode float. We then just put the |\onecolumn| into the stuff we float away
 % with |\afterpage| and avoid the ugly page break in the middle of the text.
 %
 % \paragraph{C.}%
-% In two-column mode, |\afterpage| behaves more like ``|\aftercolumn|''. That is, if we
-% are currently in the left column, its contents will not be rendered at the start of the
-% next page, but at the start of the right column. Only if we are in the right column,
-% it will put our stuff on the next page. Well, this is already the answer: If we are
-% in the left column, we do something like |\afterpage{\afterpage{...}}|.%
+% In two-column mode, |\afterpage| seemingly behaves more like ``|\aftercolumn|''.
+% That is, if we are currently in the left column, its contents will not be rendered
+% at the start of the next page, but at the start of the right column. Only if we are
+% in the right column, it will put our stuff on the next page. Well, this is already
+% the answer: If we are in the left column, we do something like
+% |\afterpage{\afterpage{...}}|.%
 %
 % \paragraph{D.}\phantomsection\label{sec:switchToTwoColumn}%
 % The biggest problem is that we need to switch back to two-column mode after our
@@ -976,114 +986,67 @@ pdfkeywords={LaTeX, package, figureSeries}
 % StackOverflow question \url{http://tex.stackexchange.com/questions/74433} on a vaguely
 % reated issue. In his answer~\cite{H2012MPOCAIATCD}, Tom{\'{a}}{\v{s}}~Hejda introduced
 % a way to switch to the |\twocolumn| mode and prepending a long series of vertical
-% boxes. I simply copied his code from the answer into this package but renamed all
+% boxes. I derive my solution from his code from the answer into this package but renamed all
 % involved entities to fit to our internal naming scheme.
 %
 % \paragraph{F.}\phantomsection\label{sec:extendBody}%
-% Still, there is another problem: If more than one figure series is started on
-% the same page, then we may get an empty page inbetween because of the |\clearpage|
-% done by |\onecolumn|. The trick here is to detect whether another figure series
-% is ``scheduled'' but not yet laid out. In this case, we attach the contents
-% of our new figure series to the contents of the pending one (stored in a body macro)
+% If more than one figure series is started on the same page, then we may get an empty page
+% inbetween because of the |\clearpage| done by |\onecolumn|. This is one of the
+% reason of the automatic coalescing done in the user interfaces: If another figure
+% series is pending to be laid out (|\@figSer@floatingBody| is not |\@empty|), we attach
+% the contents of our new figure series to the contents of the pending one
 % via |\g@addto@macro|. After the figure series is actually laid out, the body macro
-% must be emptied.
+% is emptied.
 %
 % \paragraph{G.}\phantomsection\label{sec:floatsLost}%
+% \begin{sloppypar}%
 % Another problem we need to deal with is the fact that |afterpage|~\cite{C1995TAPECATPB}
 % has neither been designed for two-column documents nor for situations with other
 % floats flying around. This may lead to  |! LaTeX Error: Float(s) lost.| errors.
-%
-% My first attempt (in version |0.9.3|) to
-% solve this was by issuing a |\FloatBarrier| (from package |placeins|~\cite{A2005TPP})
-% in an |\AddThispageHook| from package |everypage|~\cite{C2007TEP}. This makes the error
-% disappear in some documents (such as in Example~\ref{ex:mixed}), but it re-appears in
-% other documents, which previously compiled well. Currently, this problem remains unsolved.
+% \end{sloppypar}%
+% Currently, this problem remains unsolved.
 %
 % It should be noted that Carlisle~\cite{C1995TAPECATPB} explicitly states in the release notes
 % of the |afterpage| package: \emph{``This implementation does not work in two column mode, and
 % can get `confused' by \LaTeX's floating environments.''} This now comes back here to haunt me.
-% 
-% Alltogether, this is a bit of a Frankenstein's monster. Anyway, here we go with the code.
-%
-% Let us first allocate a macro placeholder |\@figSer@floatingBody| for the floating figure series body
-% (see \mbox{Section~\ref{sec:extendBody}.G}),
-% which will later be filled in by |\@figSer@hereTwoCol|.
-%    \begin{macrocode}
-\xdef\@figSer@floatingBody{}%
-%    \end{macrocode}%
-%
 %
 % \begin{macro}{\@figSer@floatTwoCol}
-% The internal macro performing the work of |\figureSeriesFloat| in two-column mode.
+%
+%% The internal macro performing the work of |\figureSeriesFloat| in two-column mode.
 %    \begin{macrocode}
 \long\def\@figSer@floatTwoCol#1#2{%
-%    \end{macrocode}
-% If no figure series is pending, we build the figure series ``body'' exactly as in
-% the single-column case, but instead of laying it out directly, it is stored in the
-% |\@figSer@floatingBody| macro.
-%    \begin{macrocode}
-\ifx\@figSer@floatingBody\@empty%
-\gdef\@figSer@floatingBody{\@figSer@hereOneCol{#1}{#2}}%
-%    \end{macrocode}
-% Ok, we have now created the body of our figure series, but it is not yet ``floating''.
-% We let it float by putting it into an |\afterpage| if we already are in the
-% second (right) column (|\if@firstcolumn| is false) or into two nested |\afterpage|s, if we
-% are in the first (left) column (|\if@firstcolumn| is true).
-%
-% We furthermore set |\@figSer@AtEndDocumentHook| to |\clearpage| to deal
-% with figure series' in an otherwise empty document, which would never be
-% laid our if we do not artificially create a page, according to Section~\ref{sec:emptyDocuments}.
-%    \begin{macrocode}
-\gdef\@figSer@AtEndDocumentHook{\clearpage}%
+\@figSer@hook%
+\gdef\@figSer@floatingBody{\@figSer@print{#1}{#2}}%
 \if@firstcolumn%
 \afterpage{\afterpage{%
 \@figSer@twoColPrintBody%
-\xdef\@figSer@AtEndDocumentHook{\relax}%
+\@figSer@unhook%
 }}%
 \else%
-\afterpage{\@figSer@twoColPrintBody%
-\xdef\@figSer@AtEndDocumentHook{\relax}%
+\afterpage{%
+\@figSer@twoColPrintBody%
+\@figSer@unhook%
 }%
-\fi%
-%    \end{macrocode}
-% End of ``new'' figure series.
-%    \begin{macrocode}
-\else%
-%    \end{macrocode}
-% OK, if we get here, a figure series is pending. In this case, the body of the current
-% figure is appended to it as discussed in \mbox{Section~\ref{sec:extendBody}.G}. We do not need
-% to |\afterpage| a call to |\@figSer@twoColPrintBody| since there must already be one enqueued.
-%    \begin{macrocode}
-\g@addto@macro{\@figSer@floatingBody}{\@figSer@hereOneCol{#1}{#2}}%
 \fi%
 }%
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@figSer@hereTwoCol}
-% The macro |\@figSer@hereTwoCol| represents the fourth case listed in Section~\ref{sec:cases}.
-% Since there is no way we can have a page-wide object in the middle of a two-column page
-% that I know of, for now, this case simply behaves like the two-column floating case.
-%    \begin{macrocode}
-\let\@figSer@hereTwoCol\@figSer@floatTwoCol%
-%    \end{macrocode}
-% \end{macro}
 %
-% \subsubsection{Switch back to \texttt{twocolumn} According to~\cite{H2012MPOCAIATCD}}%
+% \subsubsection{The Two-Column Layout Algorithm (based on~\cite{H2012MPOCAIATCD})}%
 % \label{sec:codeBasedOnLong2}%
-% Here I include the code provided by Tom{\'{a}}{\v{s}}~Hejda in his answer to
+% I derive my solution based on the code provided by Tom{\'{a}}{\v{s}}~Hejda in his answer to
 % question \url{http://tex.stackexchange.com/questions/74433}~\cite{H2012MPOCAIATCD}.
-% Instead of copy-pasting it, I changed all naming to match this package's convention and
-% made one minor modification. The name changing has two reasons: First, it ensures that
+% Instead of copy-pasting it, I \emph{a)}~changed all naming to match this package's convention and
+% made one minor modification, and \emph{b)}~changed quite a bit of the code's internal structure.
+%
+% The name changing has two reasons: First, it ensures that
 % all parts of this package follow the same naming convention and can easily be identified
 % as parts of this package. Second, if Tom{\'{a}}{\v{s}}~Hejda should turn his code into
 % a package (as his answer~\cite{H2012MPOCAIATCD} indicated), there will be no name clashs
 % between his package and mine.
 %
-% \emph{I must point out that I do not really understand this code. I understand roughly
-% what it does, but there are several nuances which are unclear to me.}
-%
-% Also, some of the numbers, like for the page height fraction (0.84) or the
+% Some of the numbers, like for the page height fraction (0.84) or the
 % |vspace| (15pt plus 15pt), seem to be fixed to somewhat arbitrary values, which may
 % be better taken from the current configuration (like |\floatpagefraction| or
 % |\medskip| something). Right now, I don't have the nerve to check for this,
@@ -1097,39 +1060,20 @@ pdfkeywords={LaTeX, package, figureSeries}
 \newsavebox\@figSer@printBox%
 %    \end{macrocode}
 %
-% This macro is represents the body of the figure series. In a loop, chunks
+%  \begin{macro}{\@figSer@breakBodyRepeat@Orig}
+% This macro is the inner layout loop: It repetitively slices chunks off |\@figSer@wholeBodyBox|
 % as big as possible but small enough to fit on a page are cut off and printed.
 % Different from~\cite{H2012MPOCAIATCD}, we implement this macro for re-use
-% in the next figure series. The equivalent |\longtwo@repeat| macro in~\cite{H2012MPOCAIATCD}
-% seems to ultimately overwritten and, from what I can see at first glance
-% without testing, can only be used once.
-%  \begin{macro}{\@figSer@breakBodyRepeat@Orig}
+% in the next figure series. I also removed some boxing whose purpose I do not understand.
 %    \begin{macrocode}
 \def\@figSer@breakBodyRepeat@Orig{%
-%    \end{macrocode}
-% We first switch from two-column to single-column mode (|\@twocolumnfalse|).
-% Then, the elements of the figure series' are printed on top of the page
-% spanning both columns (since the code for that is the parameter to |\twocolumn|).
-% Finally, |\twocolumn| switches to two-column mode. 
-%    \begin{macrocode}
 \twocolumn[{\@twocolumnfalse%
-%    \end{macrocode}
-% Once and only once, we store the contents of |\@figSer@floatingBody| into the box
-% |\@figSer@wholeBodyBox|. Once this is done, |\@figSer@floatingBody| is set to |\@empty|. 
-%    \begin{macrocode}
 \ifx\@figSer@floatingBody\@empty%
 \else%
 \global\setbox\@figSer@wholeBodyBox\vbox{\@figSer@floatingBody}%
 \global\let\@figSer@floatingBody\@empty%
 \fi%
-%    \end{macrocode}
-% Check if the contents of our box fit on the current page. 
-%    \begin{macrocode}
 \ifdim\ht\@figSer@wholeBodyBox>\textheight%
-%    \end{macrocode}
-% If the contents of our box are bigger then the |\textheight|, we split
-% the box and output the first part on the current page.
-%    \begin{macrocode}
 \begingroup%
 \vbadness10000%
 \setbox\@figSer@printBox\vsplit\@figSer@wholeBodyBox to \textheight%
@@ -1137,10 +1081,6 @@ pdfkeywords={LaTeX, package, figureSeries}
 \box\@figSer@printBox%
 \endgroup%
 \else%
-%    \end{macrocode}
-% If the contents of our box fit on the page but are large, we will issue a |\clearpage|
-% after printing them, otherwise we print them and do nothing.%
-%    \begin{macrocode}
 \ifdim\ht\@figSer@wholeBodyBox>0.84\textheight%
 \global\let\@figSer@breakBodyRepeat\clearpage%
 \else%
@@ -1150,9 +1090,6 @@ pdfkeywords={LaTeX, package, figureSeries}
 \vspace{15pt plus 15pt}%
 \fi%
 }]%
-%    \end{macrocode}
-% We use recursion to iterate the body loop.
-%    \begin{macrocode}
 \@figSer@breakBodyRepeat%
 }%
 %    \end{macrocode}
@@ -1168,6 +1105,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 \begingroup%
 \@figSer@breakBodyRepeat%
 \endgroup%
+\global\let\@figSer@floatingBody\@empty%
 }%
 %    \end{macrocode}
 %  \end{macro}
@@ -1180,17 +1118,20 @@ pdfkeywords={LaTeX, package, figureSeries}
 % This should only happen if the document was empty. As soon as the figure series is laid out,
 % the hook will be reset to |\relax|.%
 %    \begin{macrocode}
-\xdef\@figSer@AtEndDocumentHook{\relax}%
+\def\@figSer@hook{\global\let\@figSer@AtEndDocumentHook\clearpage}%
+\def\@figSer@unhook{\global\let\@figSer@AtEndDocumentHook\relax}%
+\@figSer@unhook%
 \AtEndDocument{\@figSer@AtEndDocumentHook}%
 %    \end{macrocode}
 %
 % \subsection{Errors, Tests, and Incompatibilities}%
 % \label{sec:incompatible}%
+% \begin{sloppypar}%
 % Currently, the biggest issue with the package is that it causes |! LaTeX Error: Float(s) lost.|
 % errors in two-column mode in conjunction with other floating objects hanging around, as mentioned
 % in Section~\ref{sec:floatsLost}. This is a huge pain and currently remains
 % unsolved.
-%
+% \end{sloppypar}%
 % |figureSeries| loads the packages |caption|~\cite{S2011TCPCCIFE},
 % |subcaption|~\cite{S2013TSPSFSC}, and |afterpage|~\cite{C1995TAPECATPB}.
 % Therefore it inherits all incompatibilities of these packages. The |subcaption| package, for instance,
@@ -1308,16 +1249,6 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \newblock {SIG-ALTERNATE.CLS {--} Version 2.4 (Compatible with the%
 %   ACM{\_}PROC{\_}ARTICLE-SP.CLS`` V3.2SP)}, April~22, 2009.%
 % \newblock URL \url{http://www.acm.org/sigs/publications/proceedings-templates}.%
-%
-% \bibitem[Callegari(2007)]{C2007TEP}
-% Sergio Callegari.
-% \newblock \emph{{The Everypage Package}}, June~20, 2007.
-% \newblock URL \url{http://www.ctan.org/pkg/everypage}%
-%
-% \bibitem[Arseneau(2005)]{A2005TPP}
-% Donald Arseneau.
-% \newblock \emph{The Placeins Package}, April~18, 2005.
-% \newblock URL \url{http://www.ctan.org/pkg/placeins}
 % 
 % \bibitem[Arnold(2014)]{A2014TLPPAFLETBOP}
 % Tim Arnold.

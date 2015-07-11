@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.5.1)  10 JUL 2015 22:39
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.5.1)  11 JUL 2015 19:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -261,12 +261,13 @@ Type  H <return>  for immediate help.
 l.26 \end{document}
                    % 
 Here is how much of TeX's memory you used:
- 3467 strings out of 493304
- 57244 string characters out of 6139872
- 216728 words of memory out of 5000000
- 6923 multiletter control sequences out of 15000+600000
+ 3468 strings out of 493304
+ 57247 string characters out of 6139872
+ 216744 words of memory out of 5000000
+ 6924 multiletter control sequences out of 15000+600000
  29726 words of font info for 59 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  44i,11n,58p,256b,449s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 !  ==> Fatal error occurred, no output PDF file produced!
+pdflatex exit code: 1
