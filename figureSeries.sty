@@ -123,18 +123,18 @@
 \@figSer@unhook%
 }%
 }%
-%% The internal macro performing the work of |\figureSeriesFloat| in two-column mode.
 \long\def\@figSer@floatTwoCol#1#2{%
 \@figSer@hook%
 \gdef\@figSer@floatingBody{\@figSer@print{#1}{#2}}%
+\global\let\@figSer@breakBodyRepeat\@figSer@breakBodyRepeat@Orig%
 \if@firstcolumn%
 \afterpage{\afterpage{%
-\@figSer@twoColPrintBody%
+\@figSer@breakBodyRepeat%
 \@figSer@unhook%
 }}%
 \else%
 \afterpage{%
-\@figSer@twoColPrintBody%
+\@figSer@breakBodyRepeat%
 \@figSer@unhook%
 }%
 \fi%
@@ -142,19 +142,16 @@
 \newsavebox\@figSer@wholeBodyBox%
 \newsavebox\@figSer@printBox%
 \def\@figSer@breakBodyRepeat@Orig{%
-\twocolumn[{\@twocolumnfalse%
+\twocolumn[{%
 \ifx\@figSer@floatingBody\@empty%
 \else%
 \global\setbox\@figSer@wholeBodyBox\vbox{\@figSer@floatingBody}%
 \global\let\@figSer@floatingBody\@empty%
 \fi%
 \ifdim\ht\@figSer@wholeBodyBox>\textheight%
-\begingroup%
-\vbadness10000%
 \setbox\@figSer@printBox\vsplit\@figSer@wholeBodyBox to \textheight%
 \global\setbox\@figSer@wholeBodyBox\vbox{\unvbox\@figSer@wholeBodyBox}%
 \box\@figSer@printBox%
-\endgroup%
 \else%
 \ifdim\ht\@figSer@wholeBodyBox>0.84\textheight%
 \global\let\@figSer@breakBodyRepeat\clearpage%
@@ -166,13 +163,6 @@
 \fi%
 }]%
 \@figSer@breakBodyRepeat%
-}%
-\long\def\@figSer@twoColPrintBody{%
-\let\@figSer@breakBodyRepeat\@figSer@breakBodyRepeat@Orig%
-\begingroup%
-\@figSer@breakBodyRepeat%
-\endgroup%
-\global\let\@figSer@floatingBody\@empty%
 }%
 \def\@figSer@hook{\global\let\@figSer@AtEndDocumentHook\clearpage}%
 \def\@figSer@unhook{\global\let\@figSer@AtEndDocumentHook\relax}%

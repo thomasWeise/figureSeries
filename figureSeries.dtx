@@ -63,7 +63,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 %</driver>
 % \fi
 %
-% \CheckSum{252}
+% \CheckSum{239}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -981,7 +981,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % 20\% of a page, there will be a page break, leaving the rest of the page blank before
 % continuing in two-column mode.%
 %
-% \paragraph{E.}\phantomsection\label{sec:long2}%%
+% \paragraph{E.}\phantomsection\label{sec:long2}%
 % After searching for a long time for a solution, I found a lead in an answer to the
 % StackOverflow question \url{http://tex.stackexchange.com/questions/74433} on a vaguely
 % reated issue. In his answer~\cite{H2012MPOCAIATCD}, Tom{\'{a}}{\v{s}}~Hejda introduced
@@ -1011,20 +1011,20 @@ pdfkeywords={LaTeX, package, figureSeries}
 % can get `confused' by \LaTeX's floating environments.''} This now comes back here to haunt me.
 %
 % \begin{macro}{\@figSer@floatTwoCol}
-%
-%% The internal macro performing the work of |\figureSeriesFloat| in two-column mode.
+% The internal macro performing the work of |\figureSeriesFloat| in two-column mode.
 %    \begin{macrocode}
 \long\def\@figSer@floatTwoCol#1#2{%
 \@figSer@hook%
 \gdef\@figSer@floatingBody{\@figSer@print{#1}{#2}}%
+\global\let\@figSer@breakBodyRepeat\@figSer@breakBodyRepeat@Orig%
 \if@firstcolumn%
 \afterpage{\afterpage{%
-\@figSer@twoColPrintBody%
+\@figSer@breakBodyRepeat%
 \@figSer@unhook%
 }}%
 \else%
 \afterpage{%
-\@figSer@twoColPrintBody%
+\@figSer@breakBodyRepeat%
 \@figSer@unhook%
 }%
 \fi%
@@ -1067,19 +1067,16 @@ pdfkeywords={LaTeX, package, figureSeries}
 % in the next figure series. I also removed some boxing whose purpose I do not understand.
 %    \begin{macrocode}
 \def\@figSer@breakBodyRepeat@Orig{%
-\twocolumn[{\@twocolumnfalse%
+\twocolumn[{%
 \ifx\@figSer@floatingBody\@empty%
 \else%
 \global\setbox\@figSer@wholeBodyBox\vbox{\@figSer@floatingBody}%
 \global\let\@figSer@floatingBody\@empty%
 \fi%
 \ifdim\ht\@figSer@wholeBodyBox>\textheight%
-\begingroup%
-\vbadness10000%
 \setbox\@figSer@printBox\vsplit\@figSer@wholeBodyBox to \textheight%
 \global\setbox\@figSer@wholeBodyBox\vbox{\unvbox\@figSer@wholeBodyBox}%
 \box\@figSer@printBox%
-\endgroup%
 \else%
 \ifdim\ht\@figSer@wholeBodyBox>0.84\textheight%
 \global\let\@figSer@breakBodyRepeat\clearpage%
@@ -1094,21 +1091,6 @@ pdfkeywords={LaTeX, package, figureSeries}
 }%
 %    \end{macrocode}
 %  \end{macro}%
-%
-%  \begin{macro}{\@figSer@twoColPrintBody}
-% This is the main entry point to our version of Tom{\'{a}}{\v{s}}~Hejda's method~\cite{H2012MPOCAIATCD},
-% equivalent to his |\longtwo@| macro, with the slight difference that we restore |\@figSer@breakBodyRepeat|
-% and thus can use this macro multiple times.
-%    \begin{macrocode}
-\long\def\@figSer@twoColPrintBody{%
-\let\@figSer@breakBodyRepeat\@figSer@breakBodyRepeat@Orig%
-\begingroup%
-\@figSer@breakBodyRepeat%
-\endgroup%
-\global\let\@figSer@floatingBody\@empty%
-}%
-%    \end{macrocode}
-%  \end{macro}
 %
 % \subsubsection{Empty Documents}%
 % \label{sec:emptyDocuments}%
