@@ -115,16 +115,13 @@
 \fi%
 }%
 \long\def\@figSer@floatOneCol#1#2{%
-\@figSer@hook%
 \gdef\@figSer@floatingBody{\@figSer@print{#1}{#2}}%
 \afterpage{%
 \@figSer@floatingBody%
 \global\let\@figSer@floatingBody\@empty%
-\@figSer@unhook%
 }%
 }%
 \long\def\@figSer@floatTwoCol#1#2{%
-\@figSer@hook%
 \gdef\@figSer@floatingBody{\@figSer@print{#1}{#2}}%
 \global\let\@figSer@breakBodyRepeat\@figSer@breakBodyRepeat@Orig%
 \afterpage{\@figSer@deferTwoCol}%
@@ -132,7 +129,6 @@
 \def\@figSer@deferTwoCol{%
 \if@firstcolumn%
 \@figSer@breakBodyRepeat%
-\@figSer@unhook%
 \else%
 \afterpage{\@figSer@deferTwoCol}%
 \fi%
@@ -162,10 +158,12 @@
 }]%
 \@figSer@breakBodyRepeat%
 }%
-\def\@figSer@hook{\global\let\@figSer@AtEndDocumentHook\clearpage}%
-\def\@figSer@unhook{\global\let\@figSer@AtEndDocumentHook\relax}%
-\@figSer@unhook%
-\AtEndDocument{\@figSer@AtEndDocumentHook}%
+\AtEndDocument{%
+\ifx\@figSer@floatingBody\@empty%
+\else%
+\clearpage%
+\fi%
+}%
 \endinput
 %%
 %% End of file `figureSeries.sty'.

@@ -63,7 +63,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 %</driver>
 % \fi
 %
-% \CheckSum{240}
+% \CheckSum{228}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -86,7 +86,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \changes{v0.9.1}{2014/06/18}{Better examples showing the shortcomings of the package (in particular in two-column mode).}
 % \changes{v0.9.2}{2015/02/13}{Shortcomings in two-column mode fixed: vertical column starts are now aligned well.}
 % \changes{v0.9.3}{2015/07/07}{Failed attempt to fix ``! LaTeX Error: Float(s) lost.'' errors.}
-% \changes{v0.9.4}{2015/07/10}{Working fix for ``! LaTeX Error: Float(s) lost.'' errors}
+% \changes{v0.9.4}{2015/07/10}{Hopefully a working fix for ``! LaTeX Error: Float(s) lost.'' errors}
 %
 % \GetFileInfo{figureSeries.dtx}
 %
@@ -932,12 +932,10 @@ pdfkeywords={LaTeX, package, figureSeries}
 % call is pending (from the |figureSeries| package, that is).  
 %    \begin{macrocode}
 \long\def\@figSer@floatOneCol#1#2{%
-\@figSer@hook%
 \gdef\@figSer@floatingBody{\@figSer@print{#1}{#2}}% 
 \afterpage{%
 \@figSer@floatingBody%
 \global\let\@figSer@floatingBody\@empty%
-\@figSer@unhook%
 }%
 }%
 %    \end{macrocode}
@@ -1015,7 +1013,6 @@ pdfkeywords={LaTeX, package, figureSeries}
 % via |\@figSer@deferTwoCol|.
 %    \begin{macrocode}
 \long\def\@figSer@floatTwoCol#1#2{%
-\@figSer@hook%
 \gdef\@figSer@floatingBody{\@figSer@print{#1}{#2}}%
 \global\let\@figSer@breakBodyRepeat\@figSer@breakBodyRepeat@Orig%
 \afterpage{\@figSer@deferTwoCol}%
@@ -1040,7 +1037,6 @@ pdfkeywords={LaTeX, package, figureSeries}
 \def\@figSer@deferTwoCol{%
 \if@firstcolumn%
 \@figSer@breakBodyRepeat%
-\@figSer@unhook%
 \else%
 \afterpage{\@figSer@deferTwoCol}%
 \fi%
@@ -1115,11 +1111,17 @@ pdfkeywords={LaTeX, package, figureSeries}
 % unless a figure series is currently pending in an |\afterpage|. In this case, it is |\clearpage|.
 % This should only happen if the document was empty. As soon as the figure series is laid out,
 % the hook will be reset to |\relax|.%
+%
+% Setup the hook as a do-nothing method and make sure it is invoked at the end of the
+% document.%
+%
 %    \begin{macrocode}
-\def\@figSer@hook{\global\let\@figSer@AtEndDocumentHook\clearpage}%
-\def\@figSer@unhook{\global\let\@figSer@AtEndDocumentHook\relax}%
-\@figSer@unhook%
-\AtEndDocument{\@figSer@AtEndDocumentHook}%
+\AtEndDocument{%
+\ifx\@figSer@floatingBody\@empty%
+\else%
+\clearpage%
+\fi%
+}%
 %    \end{macrocode}
 %
 % \subsection{Errors, Tests, and Incompatibilities}%

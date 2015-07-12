@@ -16,22 +16,15 @@ rm *.toc
 rm *.pdf
 
 cp ../figureSeries.sty .
-pdflatex example_1_LNCS
-pdflatex example_1_LNCS
-pdflatex example_2_IEEEtran
-pdflatex example_2_IEEEtran
-pdflatex example_3_IEEEtran
-pdflatex example_3_IEEEtran
-pdflatex example_4_sigAlternate
-pdflatex example_4_sigAlternate
-pdflatex example_5_sigAlternate
-pdflatex example_5_sigAlternate
-pdflatex example_6_sigAlternate
-pdflatex example_6_sigAlternate
-pdflatex example_7_LNCS
-pdflatex example_7_LNCS
-pdflatex example_8
-pdflatex example_8
+
+for document in `find . -type f -name "*.tex"`
+do
+filename=$(basename "$document")
+filename="${filename%.*}"
+pdflatex -interaction=batchmode -halt-on-error ${filename}
+pdflatex -interaction=batchmode -halt-on-error ${filename}
+pdflatex -interaction=batchmode -halt-on-error ${filename}
+done
 
 rm figureSeries.*
 rm *.aux
