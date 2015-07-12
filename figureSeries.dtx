@@ -63,7 +63,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 %</driver>
 % \fi
 %
-% \CheckSum{239}
+% \CheckSum{240}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -86,7 +86,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \changes{v0.9.1}{2014/06/18}{Better examples showing the shortcomings of the package (in particular in two-column mode).}
 % \changes{v0.9.2}{2015/02/13}{Shortcomings in two-column mode fixed: vertical column starts are now aligned well.}
 % \changes{v0.9.3}{2015/07/07}{Failed attempt to fix ``! LaTeX Error: Float(s) lost.'' errors.}
-% \changes{v0.9.4}{2015/07/10}{Some minor fixes, but the problem that I thought I solved in release 0.9.3 remains.}
+% \changes{v0.9.4}{2015/07/10}{Working fix for ``! LaTeX Error: Float(s) lost.'' errors}
 %
 % \GetFileInfo{figureSeries.dtx}
 %
@@ -1000,11 +1000,9 @@ pdfkeywords={LaTeX, package, figureSeries}
 %
 % \paragraph{G.}\phantomsection\label{sec:floatsLost}%
 % \begin{sloppypar}%
-% Another problem we need to deal with is the fact that |afterpage|~\cite{C1995TAPECATPB}
-% has neither been designed for two-column documents nor for situations with other
-% floats flying around. This may lead to  |! LaTeX Error: Float(s) lost.| errors.
+% Another problem were |! LaTeX Error: Float(s) lost.| errors due to the unreliability of
+% |\if@firstcolumn|. This problem should be fixed in the code below.
 % \end{sloppypar}%
-% Currently, this problem remains unsolved.
 %
 % It should be noted that Carlisle~\cite{C1995TAPECATPB} explicitly states in the release notes
 % of the |afterpage| package: \emph{``This implementation does not work in two column mode, and
@@ -1012,21 +1010,39 @@ pdfkeywords={LaTeX, package, figureSeries}
 %
 % \begin{macro}{\@figSer@floatTwoCol}
 % The internal macro performing the work of |\figureSeriesFloat| in two-column mode.
+% It basically stores the figure series into the floating body container |\@figSer@floatingBody|
+% and then defers the layout of the figure series to the beginning of a new physical page
+% via |\@figSer@deferTwoCol|.
 %    \begin{macrocode}
 \long\def\@figSer@floatTwoCol#1#2{%
 \@figSer@hook%
 \gdef\@figSer@floatingBody{\@figSer@print{#1}{#2}}%
 \global\let\@figSer@breakBodyRepeat\@figSer@breakBodyRepeat@Orig%
-\if@firstcolumn%
-\afterpage{\afterpage{%
-\@figSer@breakBodyRepeat%
-\@figSer@unhook%
-}}%
-\else%
-\afterpage{%
-\@figSer@breakBodyRepeat%
-\@figSer@unhook%
+\afterpage{\@figSer@deferTwoCol}%
 }%
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@figSer@floatTwoCol}
+% The internal |\@figSer@deferTwoCol| macro checks if we are in the first column.
+% Since it was |\afterpage|d in |\@figSer@floatTwoCol|, this would mean that we are
+% at the start of a new page. In this case, we can directly print the figure series.
+% Otherwise, we recursively |\afterpage| again, until we eventually can do the layout.
+% \begin{sloppypar}%
+% It should be noted that I had some problems with |\if@firstcolumn| in earlier versions
+% of the package: |\if@firstcolumn| seems to be unreliable. Sometimes, it may have wrong
+% values due to \LaTeX's asynchronous page breaking (or something). In my old implementation,
+% this would lead me to trying to lay out the figure series in the wrong place, leading
+% to  |! LaTeX Error: Float(s) lost.| errors.
+% \end{sloppypar}%
+% 
+%    \begin{macrocode}
+\def\@figSer@deferTwoCol{%
+\if@firstcolumn%
+\@figSer@breakBodyRepeat%
+\@figSer@unhook%
+\else%
+\afterpage{\@figSer@deferTwoCol}%
 \fi%
 }%
 %    \end{macrocode}

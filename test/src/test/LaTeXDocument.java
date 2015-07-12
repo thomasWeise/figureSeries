@@ -50,6 +50,9 @@ public final class LaTeXDocument {
   /** the current section depth */
   private int m_secDepth;
 
+  /** do we have a figure series? */
+  private boolean m_hasFigSer;
+
   /**
    * create the document
    *
@@ -358,6 +361,8 @@ public final class LaTeXDocument {
   private final void __addFigureSeries(final Random rand) {
     int height, width, m;
 
+    this.m_hasFigSer = true;
+
     this.__add("\\figureSeries"); //$NON-NLS-1$
     if (rand.nextBoolean()) {
       this.__add("Float{"); //$NON-NLS-1$
@@ -505,7 +510,7 @@ public final class LaTeXDocument {
           break;
         }
       }
-    } while (rand.nextInt(3) > 0);
+    } while ((!(doc.m_hasFigSer)) || (rand.nextInt(3) > 0));
 
     doc.__endDocument();
     return doc;

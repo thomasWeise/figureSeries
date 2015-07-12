@@ -62,44 +62,46 @@ public class LaTeXCompiler {
         buf = new byte[16384];
 
         for (times = 3; (--times) >= 0;) {
-          p = Runtime.getRuntime().exec(new String[] {//
-              program,//
-                  "-interaction=batchmode",//$NON-NLS-1$
-                  "-halt-on-error",//$NON-NLS-1$
-                  "report"//$NON-NLS-1$
-              }, null, tempDir.toFile());
+          synchronized (LaTeXCompiler.class) {
+            p = Runtime.getRuntime().exec(new String[] {//
+                program,//
+                "-interaction=batchmode",//$NON-NLS-1$
+                "-halt-on-error",//$NON-NLS-1$
+                "report"//$NON-NLS-1$
+            }, null, tempDir.toFile());
 
-          try {
-            in = err = true;
-            ins = p.getInputStream();
-            errs = p.getErrorStream();
-            toggle = true;
+            try {
+              in = err = true;
+              ins = p.getInputStream();
+              errs = p.getErrorStream();
+              toggle = true;
 
-            while (in || err) {
-              inAvail = (in ? ins.available() : (-1));
-              errAvail = (err ? errs.available() : (-1));
-              if (toggle ? (inAvail > errAvail) : (inAvail >= errAvail)) {
-                toggle = true;
-                if (in) {
-                  if (ins.read(buf) < 0) {
-                    in = false;
+              while (in || err) {
+                inAvail = (in ? ins.available() : (-1));
+                errAvail = (err ? errs.available() : (-1));
+                if (toggle ? (inAvail > errAvail) : (inAvail >= errAvail)) {
+                  toggle = true;
+                  if (in) {
+                    if (ins.read(buf) < 0) {
+                      in = false;
+                    }
                   }
-                }
-              } else {
-                toggle = false;
-                if (err) {
-                  if (errs.read(buf) < 0) {
-                    err = false;
+                } else {
+                  toggle = false;
+                  if (err) {
+                    if (errs.read(buf) < 0) {
+                      err = false;
+                    }
                   }
                 }
               }
-            }
 
-            if (p.waitFor() != 0) {
-              return false;
+              if (p.waitFor() != 0) {
+                return false;
+              }
+            } finally {
+              p.destroy();
             }
-          } finally {
-            p.destroy();
           }
 
           if (!(Files.exists(expected))) {
@@ -126,7 +128,7 @@ public class LaTeXCompiler {
    */
   public static final boolean compile(final LaTeXDocument doc) {
     return (LaTeXCompiler.__compile("latex", "dvi", doc) && // //$NON-NLS-1$//$NON-NLS-2$
-    LaTeXCompiler.__compile("pdflatex", "pdf", doc)); //$NON-NLS-1$//$NON-NLS-2$
+        LaTeXCompiler.__compile("pdflatex", "pdf", doc)); //$NON-NLS-1$//$NON-NLS-2$
   }
 
   /**
@@ -209,7 +211,7 @@ public class LaTeXCompiler {
    * in a directory, then the directory itself.
    */
   private static final class __DeleteFileTree extends
-      SimpleFileVisitor<Path> {
+  SimpleFileVisitor<Path> {
 
     /** the exceptions */
     private ArrayList<Throwable> m_exceptions;
