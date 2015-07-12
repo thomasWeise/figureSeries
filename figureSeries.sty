@@ -27,6 +27,7 @@
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesPackage{figureSeries}
     [2015/02/13 v0.9.4 Provides a floating, figure*-like construct that can break over multiple pages]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Preamble %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newif\if@figSer@captionCompatibilityFalse%
 \@figSer@captionCompatibilityFalsefalse%
 \ifx\spnewtheorem\@undefined%
@@ -41,13 +42,20 @@
 \RequirePackage{subcaption}%
 \DeclareCaptionSubType*[arabic]{figure}%
 \RequirePackage{afterpage}%
+\RequirePackage{cuted}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User Interface %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Insert an element of the figure series, i.e., a sub-figure.
+%% #1 the caption of the sub-figure, potentially including a |\label|
+%% #2 the contents of the sub-figure, likely a call to |\includegraphicx|
 \long\gdef\figureSeriesElement#1#2{%
 \strut\hfill\strut%
 \edef\@captype{figure}%
 \subcaptionbox{#1}{#2}%
 \strut\hfill\strut%
 }%
-\global\let\@figSer@delayedCaption\@empty%
+%%
+%% Insert a row of sub-figures into the figure series.
+%% #1 the contents of the rows: arbitrarily many calls to |\figureSeriesElement|
 \long\gdef\figureSeriesRow#1{%
 \begin{center}%
 \ifx\@figSer@delayedCaption\@empty%
@@ -63,31 +71,41 @@
 \fi%
 \end{center}%
 }%
-\global\let\@figSer@floatingBody\@empty%
+%% Insert a figure series right here, i.e., at the location at which this
+%% function is called.
+%% Exceptions: This function will behave like \figureSeriesFloat if 1. a
+%% floating figure series already pending and 2. in two-column documents.
+%% #1 the caption of the figure series, potentially including a |\label|
+%% #2 the contents of the figure series: arbitrarily many calls to
+%%    |\figureSeriesRow|
 \long\def\figureSeriesHere#1#2{%
 \ifx\@figSer@floatingBody\@empty%
-\@figSer@detectColumns%
-\if@figSer@isTwoColumns%
-\@figSer@floatTwoCol{#1}{#2}%
+\if@twocolumn%
+\@figSer@store{#1}{#2}%
+\afterpage{\@figSer@deferred}%
 \else%
 \@figSer@print{#1}{#2}%
 \fi%
 \else%
-\g@addto@macro{\@figSer@floatingBody}{\@figSer@print{#1}{#2}}%
+\@figSer@store{#1}{#2}%
 \fi%
 }%
+%% Insert a floating figure series right here, i.e., one which will be
+%% laid out on top of the following page.
+%% #1 the caption of the figure series, potentially including a |\label|
+%% #2 the contents of the figure series: arbitrarily many calls to
+%%    |\figureSeriesRow|
 \long\gdef\figureSeriesFloat#1#2{%
 \ifx\@figSer@floatingBody\@empty%
-\@figSer@detectColumns%
-\if@figSer@isTwoColumns%
-\@figSer@floatTwoCol{#1}{#2}%
+\@figSer@store{#1}{#2}%
+\afterpage{\@figSer@deferred}%
 \else%
-\@figSer@floatOneCol{#1}{#2}%
-\fi%
-\else%
-\g@addto@macro{\@figSer@floatingBody}{\@figSer@print{#1}{#2}}%
+\@figSer@store{#1}{#2}%
 \fi%
 }%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Internal Macros %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\global\let\@figSer@floatingBody\@empty%
+\global\let\@figSer@delayedCaption\@empty%
 \long\def\@figSer@print#1#2{%
 \def\@figSer@delayedCaption{%
 \noindent\parbox{\textwidth}{%
@@ -100,63 +118,21 @@
 \end{center}%
 \medskip%
 }%
-\newif\if@figSer@isTwoColumns%
-\@figSer@isTwoColumnsfalse%
-\def\@figSer@detectColumns{%
-\@figSer@isTwoColumnsfalse%
-\ifx\multicols\@undefined%
-\else%
-\ifnum\col@number>\@ne%
-\@figSer@isTwoColumnstrue%
-\fi%
-\fi%
-\if@twocolumn%
-\@figSer@isTwoColumnstrue%
-\fi%
+\long\def\@figSer@store#1#2{%
+\g@addto@macro{\@figSer@floatingBody}{\@figSer@print{#1}{#2}}%
 }%
-\long\def\@figSer@floatOneCol#1#2{%
-\gdef\@figSer@floatingBody{\@figSer@print{#1}{#2}}%
-\afterpage{%
+\def\@figSer@deferred{%
+\if@twocolumn%
+\if@firstcolumn%
+\begin{strip}\@figSer@floatingBody\end{strip}%
+\global\let\@figSer@floatingBody\@empty%
+\else%
+\afterpage{\@figSer@deferred}%
+\fi%
+\else%
 \@figSer@floatingBody%
 \global\let\@figSer@floatingBody\@empty%
-}%
-}%
-\long\def\@figSer@floatTwoCol#1#2{%
-\gdef\@figSer@floatingBody{\@figSer@print{#1}{#2}}%
-\global\let\@figSer@breakBodyRepeat\@figSer@breakBodyRepeat@Orig%
-\afterpage{\@figSer@deferTwoCol}%
-}%
-\def\@figSer@deferTwoCol{%
-\if@firstcolumn%
-\@figSer@breakBodyRepeat%
-\else%
-\afterpage{\@figSer@deferTwoCol}%
 \fi%
-}%
-\newsavebox\@figSer@wholeBodyBox%
-\newsavebox\@figSer@printBox%
-\def\@figSer@breakBodyRepeat@Orig{%
-\twocolumn[{%
-\ifx\@figSer@floatingBody\@empty%
-\else%
-\global\setbox\@figSer@wholeBodyBox\vbox{\@figSer@floatingBody}%
-\global\let\@figSer@floatingBody\@empty%
-\fi%
-\ifdim\ht\@figSer@wholeBodyBox>\textheight%
-\setbox\@figSer@printBox\vsplit\@figSer@wholeBodyBox to \textheight%
-\global\setbox\@figSer@wholeBodyBox\vbox{\unvbox\@figSer@wholeBodyBox}%
-\box\@figSer@printBox%
-\else%
-\ifdim\ht\@figSer@wholeBodyBox>0.84\textheight%
-\global\let\@figSer@breakBodyRepeat\clearpage%
-\else%
-\global\let\@figSer@breakBodyRepeat\relax%
-\fi%
-\unvbox\@figSer@wholeBodyBox%
-\vspace{15pt plus 15pt}%
-\fi%
-}]%
-\@figSer@breakBodyRepeat%
 }%
 \AtEndDocument{%
 \ifx\@figSer@floatingBody\@empty%
