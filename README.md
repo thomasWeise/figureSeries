@@ -22,11 +22,14 @@ The package figureSeries provides
   3. works well in both single-column and double-column documents.
   
 It may therefore be considered as a potential solution to the following
-requests and/or issues:
+requests and/or issues: 
   * http://tex.stackexchange.com/questions/185534
   * http://stackoverflow.com/questions/1078370
   * http://tex.stackexchange.com/questions/11059
   * http://blog.it-weise.de/p/318
+
+Other related issues are:
+  * http://tex.stackexchange.com/questions/252487/
 
 Provided Files
 --------------

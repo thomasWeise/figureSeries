@@ -49,6 +49,7 @@ rm *.out
 rm *.ps
 rm *.toc
 rm *.pdf
+rm *.log
 rm figureSeries.sty
 rm IEEEtran.cls
 

@@ -27,7 +27,9 @@
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesPackage{figureSeries}
     [2015/02/13 v0.9.4 Provides a floating, figure*-like construct that can break over multiple pages]
+%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Preamble %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
 \newif\if@figSer@captionCompatibilityFalse%
 \@figSer@captionCompatibilityFalsefalse%
 \ifx\spnewtheorem\@undefined%
@@ -43,7 +45,10 @@
 \DeclareCaptionSubType*[arabic]{figure}%
 \RequirePackage{afterpage}%
 \RequirePackage{cuted}%
+%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User Interface %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%
 %% Insert an element of the figure series, i.e., a sub-figure.
 %% #1 the caption of the sub-figure, potentially including a |\label|
 %% #2 the contents of the sub-figure, likely a call to |\includegraphicx|
@@ -71,6 +76,7 @@
 \fi%
 \end{center}%
 }%
+%%
 %% Insert a figure series right here, i.e., at the location at which this
 %% function is called.
 %% Exceptions: This function will behave like \figureSeriesFloat if 1. a
@@ -90,6 +96,7 @@
 \@figSer@store{#1}{#2}%
 \fi%
 }%
+%%
 %% Insert a floating figure series right here, i.e., one which will be
 %% laid out on top of the following page.
 %% #1 the caption of the figure series, potentially including a |\label|
@@ -103,7 +110,9 @@
 \@figSer@store{#1}{#2}%
 \fi%
 }%
+%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Internal Macros %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
 \global\let\@figSer@floatingBody\@empty%
 \global\let\@figSer@delayedCaption\@empty%
 \long\def\@figSer@print#1#2{%

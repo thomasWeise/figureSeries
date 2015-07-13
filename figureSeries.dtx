@@ -86,7 +86,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \changes{v0.9.1}{2014/06/18}{Better examples showing the shortcomings of the package (in particular in two-column mode).}
 % \changes{v0.9.2}{2015/02/13}{Shortcomings in two-column mode fixed: vertical column starts are now aligned well.}
 % \changes{v0.9.3}{2015/07/07}{Failed attempt to fix ``! LaTeX Error: Float(s) lost.'' errors.}
-% \changes{v0.9.4}{2015/07/10}{A working fix for ``! LaTeX Error: Float(s) lost.'' errors by using the package ``cuted.``}
+% \changes{v0.9.4}{2015/07/13}{Hopefully a working fix for ``! LaTeX Error: Float(s) lost.'' errors by using the package ``cuted.``}
 %
 % \GetFileInfo{figureSeries.dtx}
 %
@@ -173,13 +173,6 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \item works well in both one-column and two-column documents.%
 % \end{enumerate}%
 %
-% \textbf{WARNING:}~This is just a first, hacked-together version
-% of this package. I am not an expert in \LaTeX, and I am pretty sure
-% I managed to incorporate a few ``that cannot be made to work reliable''s
-% into the code. Plus, it contains some code taken from the internet, which
-% I myself only partially understand (see Section~\ref{sec:codeBasedOnLong2}).
-% This package here is just there for discussion. Use it at your own risk.%
-%
 % \section{Usage}%
 %
 % \subsection{Loading the Package}
@@ -187,7 +180,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \begin{quote}
 %   |\RequirePackage{figureSeries}|
 % \end{quote}
-% This will automatically load the packages |caption|~\cite{S2011TCPCCIFE}, |subcaption|~\cite{S2013TSPSFSC}, and |afterpage|~\cite{C1995TAPECATPB}.
+% This will automatically load the packages |caption|~\cite{S2011TCPCCIFE}, |subcaption|~\cite{S2013TSPSFSC}, |afterpage|~\cite{C1995TAPECATPB}, and |cuted|~\cite{T2012TCP}.
 %
 % \subsection{Provided Macros}\label{sec:providedMacros}%
 %
@@ -337,7 +330,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % In Example~\ref{ex:ieeetran2}, we put several floating figure series close to
 % each other into a two-column document, again using the |IEEEtran| class~\cite{IEEETRAN}.
 % The bodies of the figure series should coalesce without losing their captions, figure
-% numbers, or identities. Since they coalesce, no empty pages are produced in between (see \mbox{Section~\ref{sec:extendBody}.F}).
+% numbers, or identities. Since they coalesce, no empty pages are produced in between.
 % The result is rendered as Figure~\ref{ex:ieeetran2:res}.
 %
 % \begin{example}%
@@ -625,11 +618,12 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \item The package |caption|~\cite{S2011TCPCCIFE} for the caption of the |figureSeries|.%
 % \item The package |subcaption|~\cite{S2013TSPSFSC} for sub-figure layout and captions.%
 % \item The package |afterpage|~\cite{C1995TAPECATPB} for creating the impression that our |figureSeries| can float.%
+% \item The package |cuted|~\cite{T2012TCP} for laying out the figure series in two-column mode.
 % \end{enumerate}%
 %    \begin{macrocode}
-%
+%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Preamble %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
+%%
 %    \end{macrocode}
 %
 % \subsubsection{Loading \texttt{caption} and \texttt{subcaption}}%
@@ -685,7 +679,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \subsubsection{Loading the \texttt{afterpage} Package}%
 %
 % Floating objects cannot break across pages, so we cannot really make our figure series
-% float. However, by using the afterpage package, we can make it look as if
+% float. However, by using the |afterpage|~\cite{C1995TAPECATPB} package, we can make it look as if
 % it was floating by rendering it on the next page.
 %
 %    \begin{macrocode}
@@ -695,7 +689,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \subsubsection{Loading the \texttt{cuted} Package}%
 %
 % In two-column mode, we need to temporarily switch to one-column mode to lay out the
-% figure series. Therefore, we use the |strip| environment from package |cuted|.
+% figure series. Therefore, we use the |strip| environment from package |cuted|~\cite{T2012TCP}.
 %
 %    \begin{macrocode}
 \RequirePackage{cuted}%
@@ -706,9 +700,9 @@ pdfkeywords={LaTeX, package, figureSeries}
 % macros which have been shortly discussed in Section~\ref{sec:providedMacros}.%
 %
 %    \begin{macrocode}
-%
+%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User Interface %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
+%%
 %    \end{macrocode}
 %
 % \begin{macro}{\figureSeriesElement}
@@ -721,7 +715,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % We make sure to tell the |subcaption| that the sub-figures are sub-figures by
 % setting |@captype| appropriately.
 %    \begin{macrocode}
-%
+%%
 %% Insert an element of the figure series, i.e., a sub-figure.
 %% #1 the caption of the sub-figure, potentially including a |\label|
 %% #2 the contents of the sub-figure, likely a call to |\includegraphicx|
@@ -756,7 +750,6 @@ pdfkeywords={LaTeX, package, figureSeries}
 % a |center| environment.
 %
 %    \begin{macrocode}
-%
 %%
 %% Insert a row of sub-figures into the figure series.
 %% #1 the contents of the rows: arbitrarily many calls to |\figureSeriesElement|
@@ -778,9 +771,8 @@ pdfkeywords={LaTeX, package, figureSeries}
 %    \end{macrocode}
 % \end{macro}
 %
-% The following two macros, |\figureSeriesHere| and |\figureSeriesFloat|, basically act as switches
-% according to the different situations given in Section~\ref{sec:cases}. Basically, different
-% things need to be done for%
+% The following two macros, |\figureSeriesHere| and |\figureSeriesFloat| act as switches
+% that decide which special situation applies, as different things have to be done for
 % \begin{enumerate}%
 % \item the non-floating (``Here'') or floating (``Float'') case, as well as for%
 % \item one-column or two-column documents.%
@@ -807,7 +799,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % order in which figure series' are printed is always the same as the order in which they are
 % declared. 
 %    \begin{macrocode}
-%
+%%
 %% Insert a figure series right here, i.e., at the location at which this
 %% function is called.
 %% Exceptions: This function will behave like \figureSeriesFloat if 1. a
@@ -837,7 +829,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % This is different from \LaTeX' normal floating behavior, but as good as we can get with
 % page-breaking objects, I think.
 %    \begin{macrocode}
-%
+%%
 %% Insert a floating figure series right here, i.e., one which will be
 %% laid out on top of the following page.
 %% #1 the caption of the figure series, potentially including a |\label|
@@ -859,9 +851,9 @@ pdfkeywords={LaTeX, package, figureSeries}
 % figure series.
 %
 %    \begin{macrocode}
-%
+%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Internal Macros %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
+%%
 %    \end{macrocode}
 %
 % \subsubsection{Container Macros}%
@@ -908,7 +900,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \end{macro}
 %
 % \begin{macro}{\@figSer@store}
-% If we want to make a figure series float, we need to temporarily store. If another
+% If we want to make a figure series float, we need to temporarily store it. If another
 % figure series is already stored, we attach the new one at its end.
 % We store a figure series in |\@figSer@floatingBody| for later layout with the macro
 % |\@figSer@store|\marg{caption}\marg{contents}.
@@ -922,7 +914,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 %
 % \begin{macro}{\@figSer@deferred}
 % This macro is used to lay out the figure series in a ``deferred'' way, i.e.,
-% when we emulate floating behavior via |\afterpage|. It behaves different in
+% when we emulate floating behavior via |\afterpage|. It behaves differently in
 % one- and two-column mode.
 %
 % In one-column mode, there is nothing much to do: The figure series is stored
@@ -931,7 +923,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % In two column mode, we should only print it if we are in the first column.
 % Otherwise, there may be errors. Thus, if we are not in the first column,
 % we simply defer again, via |\afterpage|. For actually printing the figure
-% series, we then use the |strip| environment from package |cuted|.
+% series, we then use the |strip| environment from package |cuted|~\cite{T2012TCP}.
 %
 %    \begin{macrocode} 
 \def\@figSer@deferred{%
@@ -953,14 +945,8 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \subsubsection{Empty Documents}%
 % \label{sec:emptyDocuments}%
 % Empty documents pose a threat. If no page is to end, the contents of |\afterpage| will not be invoked.
-% Hence, we add a hook via |\AtEndDocument|. This hook (|\@figSer@AtEndDocumentHook|) will be |\relax|,
-% unless a figure series is currently pending in an |\afterpage|. In this case, it is |\clearpage|.
-% This should only happen if the document was empty. As soon as the figure series is laid out,
-% the hook will be reset to |\relax|.%
-%
-% Setup the hook as a do-nothing method and make sure it is invoked at the end of the
-% document.%
-%
+% Hence, we add a hook via |\AtEndDocument|.
+% \textcolor{blue}{Sometimes figure series may get lost even though we have this hook.}
 %    \begin{macrocode}
 \AtEndDocument{%
 \ifx\@figSer@floatingBody\@empty%
@@ -972,14 +958,17 @@ pdfkeywords={LaTeX, package, figureSeries}
 %
 % \subsection{Errors, Tests, and Incompatibilities}%
 % \label{sec:incompatible}%
-% \begin{sloppypar}%
-% Currently, the biggest issue with the package is that it causes |! LaTeX Error: Float(s) lost.|
-% errors in two-column mode in conjunction with other floating objects hanging around, as mentioned
-% in Section~\ref{sec:floatsLost}. This is a huge pain and currently remains
-% unsolved.
-% \end{sloppypar}%
+%
+% Currently, the biggest issue with the package is that sometimes, figure series may simply
+% get lost, i.e., not be printed. The reason for this is not yet clear. However, it seems
+% to be rooted in the |strip| environment: If you have such an environment in an otherwise
+% empty document, it will not be laid out. That looks similar to the isse we observe here.
+%
+% Also, we may sometimes get |! Dimension too large.| errors. These may be caused by
+% too-long |figureSeries| or too-big sub-figures.
+%
 % |figureSeries| loads the packages |caption|~\cite{S2011TCPCCIFE},
-% |subcaption|~\cite{S2013TSPSFSC}, and |afterpage|~\cite{C1995TAPECATPB}.
+% |subcaption|~\cite{S2013TSPSFSC}, |afterpage|~\cite{C1995TAPECATPB}, and |cuted|~\cite{T2012TCP}.
 % Therefore it inherits all incompatibilities of these packages. The |subcaption| package, for instance,
 % is not compatible with the packages |subfigure| and |subfig|.
 %
@@ -987,18 +976,16 @@ pdfkeywords={LaTeX, package, figureSeries}
 % The |longfigure| package~\cite{A2014TLPPAFLETBOP} provides a similar functionality,
 % i.e., a figure environment that can wrap over multiple pages. This environment can
 % be made to float by using |\afterpage|, but does not work in two-column documents.
-%
-% Tom{\'{a}}{\v{s}}~Hejda's method~\cite{H2012MPOCAIATCD}, which is used by our
-% package, may be extended to provide similar functionality, if it is published
-% as package as indicated in~\cite{H2012MPOCAIATCD}.
+% \begin{sloppypar}%
+% Tom{\'{a}}{\v{s}}~Hejda's method~\cite{H2012MPOCAIATCD} was originally used
+% in our package to lay out figure series. However, I often got |! LaTeX Error: Float(s) lost.|
+% errors in conjunction with |\afterpage|. With the `strip` environment from package
+% |cuted|~\cite{T2012TCP}, I do not get those errors anymore (but sometimes my figure series
+% may disappear\dots).
+% \end{sloppypar}%
 %
 % \subsection{License}%
-% The copyright (c) of this work is with Thomas Weise (\url{http://www.it-weise.de})
-% except for the code in Section~\ref{sec:codeBasedOnLong2}. The code
-% in Section~\ref{sec:codeBasedOnLong2} is a modified version from
-% Tom{\'{a}}{\v{s}} Hejda's (\href{mailto:tohecz@gmail.com}{tohecz@gmail.com}) answer~\cite{H2012MPOCAIATCD} to
-% question \url{http://tex.stackexchange.com/questions/74433}. The copyright of this
-% is thus not clear to me, so I won't claim it :-)
+% The copyright (c) of this work is with Thomas Weise (\url{http://www.it-weise.de}).
 %
 % This document, the package, and its documentation are under the LaTeX Project Public License, version 1.3,
 % which may be found online at \url{http://www.latex-project.org/lppl.txt}.
@@ -1064,6 +1051,11 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \newblock \emph{{The afterpage Package {--} Execute command after the next page
 %   break}}, October~27, 1995.
 % \newblock URL \url{http://www.ctan.org/pkg/afterpage}.
+%
+% \bibitem[Tolu{\v{s}}is(2012)]{T2012TCP}
+% Sigitas Tolu{\v{s}}is.%
+% \newblock \emph{The cuted package. v1.5}, October~04, 2012.
+% \newblock URL \url{http://ctan.org/pkg/cuted}.%
 %
 % \bibitem[Carlisle(2014)]{CR2014PITGB}%
 %  David P.\ Carlisle and Se­bas­tian Rahtz.%
