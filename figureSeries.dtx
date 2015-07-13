@@ -63,7 +63,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 %</driver>
 % \fi
 %
-% \CheckSum{150}
+% \CheckSum{145}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -929,7 +929,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 \def\@figSer@deferred{%
 \if@twocolumn%
 \if@firstcolumn%
-\begin{strip}\@figSer@floatingBody\end{strip}%
+\begin{strip}\@figSer@floatingBody\end{strip}\null\par%
 \global\let\@figSer@floatingBody\@empty%
 \else%
 \afterpage{\@figSer@deferred}%
@@ -942,29 +942,11 @@ pdfkeywords={LaTeX, package, figureSeries}
 %    \end{macrocode}
 % \end{macro}
 %
-% \subsubsection{Empty Documents}%
-% \label{sec:emptyDocuments}%
-% Empty documents pose a threat. If no page is to end, the contents of |\afterpage| will not be invoked.
-% Hence, we add a hook via |\AtEndDocument|.
-% \textcolor{blue}{Sometimes figure series may get lost even though we have this hook.}
-%    \begin{macrocode}
-\AtEndDocument{%
-\ifx\@figSer@floatingBody\@empty%
-\else%
-\clearpage%
-\fi%
-}%
-%    \end{macrocode}
 %
 % \subsection{Errors, Tests, and Incompatibilities}%
 % \label{sec:incompatible}%
 %
-% Currently, the biggest issue with the package is that sometimes, figure series may simply
-% get lost, i.e., not be printed. The reason for this is not yet clear. However, it seems
-% to be rooted in the |strip| environment: If you have such an environment in an otherwise
-% empty document, it will not be laid out. That looks similar to the isse we observe here.
-%
-% Also, we may sometimes get |! Dimension too large.| errors. These may be caused by
+% We may sometimes get |! Dimension too large.| errors. These may be caused by
 % too-long |figureSeries| or too-big sub-figures.
 %
 % |figureSeries| loads the packages |caption|~\cite{S2011TCPCCIFE},
@@ -1002,6 +984,9 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \href{mailto:tweise@ustc.edu.cn}{tweise@ustc.edu.cn}, \href{mailto:tweise@gmx.de}{tweise@gmx.de})
 % and I will immediately resolve the issues.
 %
+% \subsection{Thanks}
+% I want to thank Prof.\ Sigitas Tolu{\v{s}}is for his quick answer to my question
+% regarding disappearing |figureSeries| in empty documents.
 % 
 % \begin{thebibliography}{10}
 % \providecommand{\natexlab}[1]{#1}

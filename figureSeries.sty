@@ -133,7 +133,7 @@
 \def\@figSer@deferred{%
 \if@twocolumn%
 \if@firstcolumn%
-\begin{strip}\@figSer@floatingBody\end{strip}%
+\begin{strip}\@figSer@floatingBody\end{strip}\null\par%
 \global\let\@figSer@floatingBody\@empty%
 \else%
 \afterpage{\@figSer@deferred}%
@@ -141,12 +141,6 @@
 \else%
 \@figSer@floatingBody%
 \global\let\@figSer@floatingBody\@empty%
-\fi%
-}%
-\AtEndDocument{%
-\ifx\@figSer@floatingBody\@empty%
-\else%
-\clearpage%
 \fi%
 }%
 \endinput
