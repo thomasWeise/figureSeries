@@ -29,8 +29,8 @@ requests and/or issues:
   * http://blog.it-weise.de/p/318
 
 Other related issues are:
-  * http://tex.stackexchange.com/questions/252487/
-  * http://tex.stackexchange.com/questions/255091/
+  * http://tex.stackexchange.com/questions/252487
+  * http://tex.stackexchange.com/questions/255091
 
 Provided Files
 --------------

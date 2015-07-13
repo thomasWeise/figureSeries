@@ -567,7 +567,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % text between your figures, so hopefully, such layout problems would not occur.
 %
 % \begin{example}%
-% \begin{small}\verbatiminput{examples/example_8.tex}\end{small}%
+% \begin{small}\verbatiminput{examples/example_8_IEEEtran.tex}\end{small}%
 % \caption{An example for a mixture of \texttt{figureSeries}, \texttt{figure}, and \texttt{figure*}, 
 % Figure~\ref{ex:mixed:res}.}%
 % \label{ex:mixed}%
@@ -578,19 +578,19 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \strut\hfill\strut%
 % \subcaptionbox{Page 1 of the pdf compiled from Example~\ref{ex:mixed}.
 % }{%
-% \fbox{\includegraphics[page=1,width=0.45\textwidth,trim=0.65in 0.35in 0.65in 0.75in,clip]{examples/example_8.pdf}}%
+% \fbox{\includegraphics[page=1,width=0.45\textwidth,trim=0.65in 0.35in 0.65in 0.75in,clip]{examples/example_8_IEEEtran.pdf}}%
 % }%
 % \strut\hfill\strut\hfill\strut%
 % \subcaptionbox{Page 2 of the pdf compiled from Example~\ref{ex:mixed}.
 % }{%
-% \fbox{\includegraphics[page=2,width=0.45\textwidth,trim=0.65in 0.35in 0.65in 0.75in,clip]{examples/example_8.pdf}}%
+% \fbox{\includegraphics[page=2,width=0.45\textwidth,trim=0.65in 0.35in 0.65in 0.75in,clip]{examples/example_8_IEEEtran.pdf}}%
 % }%
 % \strut\hfill\strut%
 % \\%
 % \strut\hfill\strut%
 % \subcaptionbox{Page 3 of the pdf compiled from Example~\ref{ex:mixed}.
 % }{%
-% \fbox{\includegraphics[page=3,width=0.45\textwidth,trim=0.65in 0.35in 0.65in 0.75in,clip]{examples/example_8.pdf}}%
+% \fbox{\includegraphics[page=3,width=0.45\textwidth,trim=0.65in 0.35in 0.65in 0.75in,clip]{examples/example_8_IEEEtran.pdf}}%
 % }%
 % \strut\hfill\strut%
 % \caption{The rendered result of Example~\ref{ex:mixed} (with trimmed page margins): %
@@ -622,7 +622,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 % \end{enumerate}%
 %    \begin{macrocode}
 %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Preamble %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Preamble %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %    \end{macrocode}
 %
@@ -701,7 +701,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 %
 %    \begin{macrocode}
 %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User Interface %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%% User Interface %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %    \end{macrocode}
 %
@@ -852,7 +852,7 @@ pdfkeywords={LaTeX, package, figureSeries}
 %
 %    \begin{macrocode}
 %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Internal Macros %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Internal Macros %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %    \end{macrocode}
 %
@@ -960,11 +960,28 @@ pdfkeywords={LaTeX, package, figureSeries}
 % be made to float by using |\afterpage|, but does not work in two-column documents.
 % \begin{sloppypar}%
 % Tom{\'{a}}{\v{s}}~Hejda's method~\cite{H2012MPOCAIATCD} was originally used
-% in our package to lay out figure series. However, I often got |! LaTeX Error: Float(s) lost.|
+% in our package (up to version 0.9.3) to lay out figure series. However, with my implementation
+% of that method, I often got |! LaTeX Error: Float(s) lost.|
 % errors in conjunction with |\afterpage|. With the `strip` environment from package
-% |cuted|~\cite{T2012TCP}, I do not get those errors anymore (but sometimes my figure series
-% may disappear\dots).
+% |cuted|~\cite{T2012TCP}, I do not get those errors anymore.
 % \end{sloppypar}%
+%
+% The following web resources are related to this package:
+% \begin{enumerate}%
+% \item Primary GitHub Repository: \url{https://github.com/thomasWeise/figureSeries}%
+% \item \url{http://tex.stackexchange.com/questions/185534}%
+% \item \url{http://stackoverflow.com/questions/1078370}%
+% \item \url{http://tex.stackexchange.com/questions/11059}%
+% \item \url{http://blog.it-weise.de/p/318}%
+% \item \url{http://tex.stackexchange.com/questions/252487}%
+% \item \url{http://tex.stackexchange.com/questions/255091}%
+% \end{enumerate}
+% \begin{sloppypar}%
+% The reason why I developed this package is my |optimizationBenchmarking| framework, which
+% can automatically generate reports from benchmark data obtained from optimization
+% algorithms. It therefore needs a facility to deal with arbitrarily many automatically
+% generated sub-figures of a figure. You can find this project at \url{https://github.com/optimizationBenchmarking/optimizationBenchmarking}.%
+% \end{sloppypar}% 
 %
 % \subsection{License}%
 % The copyright (c) of this work is with Thomas Weise (\url{http://www.it-weise.de}).
